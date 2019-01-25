@@ -9,7 +9,7 @@ import java.util.*;
 public class FlightsData {
     private ArrayList<Map<String, Map<String, String>>> flights = new ArrayList<Map<String, Map<String, String>>>();
 
-    public void obtainFlightData(JSONObject data, boolean requireInbound) {
+    public FlightsData obtainFlightData(JSONObject data, boolean requireInbound) {
 
 
 
@@ -130,21 +130,15 @@ public class FlightsData {
             }
         }
 
-
+        return this;
 
     }
 
 
 
 
-    public void printFlights() {
-        for (Map<String, Map<String, String>> m: flights) {
-            for (String key: m.keySet()) {
-                for (String k: m.get(key).keySet()) {
-                    System.out.println(key + " " + k + " " + m.get(key).get(k));
-                }
-            }
-        }
+    public ArrayList<Map<String, Map<String, String>>> getFlights() {
+        return flights;
     }
 }
 
