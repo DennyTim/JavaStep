@@ -1,5 +1,6 @@
 import apiData.*;
 import org.json.JSONObject;
+import view.ConsoleView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -9,62 +10,10 @@ public class App {
     public static void main(String[] args) {
         //Online table
 
-                Scanner read = new Scanner(System.in);
-
-        UserRequestInfo flightInfo = new UserRequestInfo();
-
-        OnlineTableApi table = new OnlineTableApi();
-
-            System.out.println("Enter origin country:");
-            String originCountry = read.nextLine();
-            flightInfo.setOriginCountry(originCountry);
-
-            System.out.println("Enter origin city:");
-            String originCity = read.nextLine();
-            flightInfo.setOriginCity(originCity);
-
-            System.out.println("Choose origin city airport:");
-            ArrayList<Map<String, String>> originCityAirports = flightInfo.getCityInfo(flightInfo.getOriginCity(), flightInfo.getOriginCountry());
-
-            if (originCityAirports.size() == 1) {
-                for (int i = 0; i < originCityAirports.size(); i++) {
-                    System.out.println((i + 1) + ". " + originCityAirports.get(i).get("PlaceName"));
-                }
-
-                String chosenOriginAirportIndex = read.nextLine();
-                String unformattedAirportCode = originCityAirports.get(Integer.parseInt(chosenOriginAirportIndex) - 1).get("PlaceId");
-                table.setAirportCode(unformattedAirportCode.substring(0, unformattedAirportCode.indexOf("-")));
-
-            } else {
-                for (int i = 1; i < originCityAirports.size(); i++) {
-                    System.out.println((i) + ". " + originCityAirports.get(i).get("PlaceName"));
-                }
-
-                String chosenOriginAirportIndex = read.nextLine();
-                String unformattedAirportCode = originCityAirports.get(Integer.parseInt(chosenOriginAirportIndex)).get("PlaceId");
-                table.setAirportCode(unformattedAirportCode.substring(0, unformattedAirportCode.indexOf("-")));
-            }
-
-
-        System.out.println("Choose destination (departures: d, arrivals: a):");
-        String destination = read.nextLine();
-        String destinationFormat = destination.equals("d") ? "departures" : "arrivals";
-        table.setDepartureOrArrival(destinationFormat);
-
-
-        table.getData().printTableData();
-
-
-
-
-
-
-
+        ConsoleView consoleView = new ConsoleView();
+        consoleView.printData();
 
         //Flight search
-
-
-
 
 //        OnlineTableApi table = new OnlineTableApi();
 //        table.printData();
