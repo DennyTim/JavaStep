@@ -18,6 +18,14 @@ public class ConsoleView {
         this.onlineTableApi = new OnlineTableApi();
     }
 
+    public void printData(){
+        this.originCoutry ();
+        this.originCity();
+        this.chooseOriginCity();
+        this.chooseDestinationDeparOrArriv();
+        this.onlineTableApi.getData().printTableData();
+    }
+
     private void originCoutry() {
         System.out.println("Enter origin country:");
         String originCountry = read.nextLine();
@@ -33,20 +41,10 @@ public class ConsoleView {
     private void chooseOriginCity() {
         originCityAirports = flightInfo.getCityInfo(flightInfo.getOriginCity(), flightInfo.getOriginCountry());
         System.out.println("Choose origin city airport:");
-        if (originCityAirports.size() == 1) {
-            for (int i = 0; i < originCityAirports.size(); i++) {
-                System.out.println((i + 1) + ". " + originCityAirports.get(i).get("PlaceName"));
-            }
-            String chosenOriginAirportIndex = read.nextLine();
-            String unformattedAirportCode = getUnformattedAirportCode(chosenOriginAirportIndex, 1);
-            setOnlineTableApi(this.onlineTableApi, unformattedAirportCode);
+        if ((originCityAirports.size() == 1)) {
+            checkAiroportsCity(1);
         } else {
-            for (int i = 1; i < originCityAirports.size(); i++) {
-                System.out.println((i) + ". " + originCityAirports.get(i).get("PlaceName"));
-            }
-            String chosenOriginAirportIndex = read.nextLine();
-            String unformattedAirportCode = getUnformattedAirportCode(chosenOriginAirportIndex, 0);
-            setOnlineTableApi(this.onlineTableApi, unformattedAirportCode);
+            checkAiroportsCity(0);
         }
     }
 
@@ -55,14 +53,6 @@ public class ConsoleView {
         String destination = read.nextLine();
         String destinationFormat = destination.equals("a") ? "arrivals" : "departures";
         onlineTableApi.setDepartureOrArrival(destinationFormat);
-    }
-
-    public void printData(){
-        this.originCoutry ();
-        this.originCity();
-        this.chooseOriginCity();
-        this.chooseDestinationDeparOrArriv();
-        this.onlineTableApi.getData().printTableData();
     }
 
     // Доп методы
@@ -75,7 +65,12 @@ public class ConsoleView {
         onlineTableApi.setAirportCode(unformattedAirportCode.substring(0, unformattedAirportCode.indexOf("-")));
     }
 
-//    private void checkAiroportsCity(){
-//
-//    }
+    private void checkAiroportsCity(int index){
+        for (int i = index == 1 ? 0 : 1; i < originCityAirports.size(); i++) {
+            System.out.println((i + index) + ". " + originCityAirports.get(i).get("PlaceName"));
+        }
+        String chosenOriginAirportIndex = read.nextLine();
+        String unformattedAirportCode = getUnformattedAirportCode(chosenOriginAirportIndex, index);
+        setOnlineTableApi(this.onlineTableApi, unformattedAirportCode);
+    }
 }
