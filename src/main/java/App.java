@@ -1,7 +1,4 @@
-import apiData.FlightsData;
-import apiData.FlightsResponseInfo;
-import apiData.OnlineTableApi;
-import apiData.UserRequestInfo;
+import apiData.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,7 +29,6 @@ public class App {
             if (originCityAirports.size() == 1) {
                 for (int i = 0; i < originCityAirports.size(); i++) {
                     System.out.println((i + 1) + ". " + originCityAirports.get(i).get("PlaceName"));
-                    System.out.println(originCityAirports.get(i).get("PlaceId"));
                 }
 
                 String chosenOriginAirportIndex = read.nextLine();
@@ -42,7 +38,6 @@ public class App {
             } else {
                 for (int i = 1; i < originCityAirports.size(); i++) {
                     System.out.println((i) + ". " + originCityAirports.get(i).get("PlaceName"));
-                    System.out.println(originCityAirports.get(i).get("PlaceId"));
                 }
 
                 String chosenOriginAirportIndex = read.nextLine();
@@ -51,11 +46,14 @@ public class App {
             }
 
 
-        System.out.println("Choose destination (departure or arrival)");
+        System.out.println("Choose destination (departures: d, arrivals: a):");
         String destination = read.nextLine();
-        table.setDepartureOrArrival(destination);
+        String destinationFormat = destination.equals("d") ? "departures" : "arrivals";
+        table.setDepartureOrArrival(destinationFormat);
 
-        System.out.println(table.getData());
+
+        table.getData().printTableData();
+
 
 
 
