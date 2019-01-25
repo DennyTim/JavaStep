@@ -13,15 +13,11 @@ public class App {
     public static void main(String[] args) {
         //Online table
 
-        ConsoleView consoleView = new ConsoleView();
-        consoleView.printData();
+//        ConsoleView consoleView = new ConsoleView();
+//        consoleView.printData();
 
         //Flight search
 
-
-
-
-        OnlineTableApi table = new OnlineTableApi();
 
         Scanner read = new Scanner(System.in);
 
