@@ -23,7 +23,7 @@ public class ConsoleView {
     }
 
 
-    public void printData(){
+    public void printOnlineTableData(){
         originCoutry ();
         originCity();
         chooseOriginCityAirport();
@@ -31,7 +31,7 @@ public class ConsoleView {
         onlineTableApi.getData().printTableData();
     }
 
-    public void flightsService(){
+    public void flightsService() {
         originCoutry();
         originCity();
         chooseOriginCityFlightsInfo();
@@ -48,7 +48,8 @@ public class ConsoleView {
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
-
+    }
+    
     private void originCoutry() {
         System.out.println("Enter origin country:");
         String originCountry = read.nextLine();
