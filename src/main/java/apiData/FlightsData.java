@@ -87,6 +87,10 @@ public class FlightsData {
 
                     outboundInbound.put("outbound", flight);
 
+                    flights.add(outboundInbound);
+
+
+
 
                 } else if (requireInbound && m.get("inboundID").equals(legs.getJSONObject(i).getString("Id"))) {
                     flight = new HashMap<String, String>();
@@ -123,9 +127,10 @@ public class FlightsData {
                     flight.put("buy", buyURL);
 
                     outboundInbound.put("inbound", flight);
+                    flights.add(outboundInbound);
+
                 }
 
-                flights.add(outboundInbound);
 
             }
         }

@@ -22,6 +22,7 @@ public class ConsoleView {
         this.onlineTableApi = new OnlineTableApi();
     }
 
+
     public void printData(){
         originCoutry ();
         originCity();
@@ -47,7 +48,6 @@ public class ConsoleView {
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
-    }
 
     private void originCoutry() {
         System.out.println("Enter origin country:");
@@ -174,7 +174,7 @@ public class ConsoleView {
     private void getUnformatedAiroportsCity(int index){
         String chosenOriginAirportIndex = read.nextLine();
         String unformattedAirportCode = getUnformattedAirportCode(chosenOriginAirportIndex, index);
-        setOnlineTableApi(this.onlineTableApi, unformattedAirportCode);
+        setOnlineTableApi(onlineTableApi, unformattedAirportCode);
     }
 
     private void setChoosenOriginAirports(int index, ArrayList<Map<String, String>> cityAirports) {
