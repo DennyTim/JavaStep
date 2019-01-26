@@ -18,12 +18,12 @@ public class ConsoleView {
         this.onlineTableApi = new OnlineTableApi();
     }
 
-    public void printData(){
-        this.originCoutry ();
-        this.originCity();
-        this.chooseOriginCity();
-        this.chooseDestinationDeparOrArriv();
-        this.onlineTableApi.getData().printTableData();
+    public void printOnlineTableData(){
+        originCoutry ();
+        originCity();
+        chooseOriginCity();
+        chooseDestinationDeparOrArriv();
+        onlineTableApi.getData().printTableData();
     }
 
     private void originCoutry() {
@@ -71,6 +71,6 @@ public class ConsoleView {
         }
         String chosenOriginAirportIndex = read.nextLine();
         String unformattedAirportCode = getUnformattedAirportCode(chosenOriginAirportIndex, index);
-        setOnlineTableApi(this.onlineTableApi, unformattedAirportCode);
+        setOnlineTableApi(onlineTableApi, unformattedAirportCode);
     }
 }
