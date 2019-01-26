@@ -16,7 +16,6 @@ public class ConsoleView {
     private Scanner read = new Scanner(System.in);
     private ArrayList<Map<String, String>> originCityAirports;
     private ArrayList<Map<String, String>> destinationCityAirports;
-    private ArrayList<Map<String, String>> cityAirports;
 
     public ConsoleView() {
         this.flightInfo = new UserRequestInfo();
@@ -24,11 +23,11 @@ public class ConsoleView {
     }
 
     public void printData(){
-        this.originCoutry ();
-        this.originCity();
-        this.chooseOriginCityAirport();
-        this.chooseDestinationDeparOrArriv();
-        this.onlineTableApi.getData().printTableData();
+        originCoutry ();
+        originCity();
+        chooseOriginCityAirport();
+        chooseDestinationDeparOrArriv();
+        onlineTableApi.getData().printTableData();
     }
 
     public void flightsService(){
@@ -78,9 +77,11 @@ public class ConsoleView {
         originCityAirports = flightInfo.getCityInfo(flightInfo.getOriginCity(), flightInfo.getOriginCountry());
         System.out.println("Choose origin city airport:");
         if ((originCityAirports.size() == 1)) {
-            checkAiroportsCity(1);
+            checkAiroports(1, originCityAirports);
+            getUnformatedAiroportsCity(1);
         } else {
-            checkAiroportsCity(0);
+            checkAiroports(0, originCityAirports);
+            getUnformatedAiroportsCity(0);
         }
     }
 
@@ -88,9 +89,11 @@ public class ConsoleView {
         originCityAirports = flightInfo.getCityInfo(flightInfo.getOriginCity(), flightInfo.getOriginCountry());
         System.out.println("Choose origin city airport:");
         if ((originCityAirports.size() > 1)) {
-            checkOriginAiroports(1);
+            checkAiroports(1, originCityAirports);
+            setChoosenOriginAirports(1, originCityAirports);
         } else {
-            checkOriginAiroports(0);
+            checkAiroports(0, originCityAirports);
+            setChoosenOriginAirports(0, originCityAirports);
         }
     }
 
@@ -98,9 +101,11 @@ public class ConsoleView {
         destinationCityAirports = flightInfo.getCityInfo(flightInfo.getDestinationCity(), flightInfo.getDestinationCountry());
         System.out.println("Choose destionation city airport:");
         if ((originCityAirports.size() > 1)) {
-            checkDestinationAiroports(1);
+            checkAiroports(1, destinationCityAirports);
+            setChoosenDestAirports(1, destinationCityAirports);
         } else {
-            checkDestinationAiroports(0);
+            checkAiroports(0, destinationCityAirports);
+            setChoosenDestAirports(0, destinationCityAirports);
         }
     }
 
@@ -156,36 +161,29 @@ public class ConsoleView {
         onlineTableApi.setAirportCode(unformattedAirportCode.substring(0, unformattedAirportCode.indexOf("-")));
     }
 
-    private void checkAiroportsCity(int index){
-        for (int i = index == 1 ? 0 : 1; i < originCityAirports.size(); i++) {
-            System.out.println((i + index) + ". " + originCityAirports.get(i).get("PlaceName"));
+    private void checkAiroports(int index, ArrayList<Map<String, String>> cityAirports) {
+        for (int i = index == 1 ? 0 : 1; i < cityAirports.size(); i++) {
+            if (i == 0) {
+                System.out.println((i + index) + ". " + "Any airport");
+                continue;
+            }
+            System.out.println((i + index) + ". " + cityAirports.get(i).get("PlaceName"));
         }
+    }
+
+    private void getUnformatedAiroportsCity(int index){
         String chosenOriginAirportIndex = read.nextLine();
         String unformattedAirportCode = getUnformattedAirportCode(chosenOriginAirportIndex, index);
         setOnlineTableApi(this.onlineTableApi, unformattedAirportCode);
     }
 
-    private void checkOriginAiroports(int index) {
-        for (int i = index == 1 ? 0 : 1; i < originCityAirports.size(); i++) {
-            if (i == 0) {
-                System.out.println((i + 1) + ". " + "Any airport");
-                continue;
-            }
-            System.out.println((i + 1) + ". " + originCityAirports.get(i).get("PlaceName"));
-        }
+    private void setChoosenOriginAirports(int index, ArrayList<Map<String, String>> cityAirports) {
         String chosenOriginAirportIndex = read.nextLine();
-        flightInfo.setChosenOriginAirport(originCityAirports.get(Integer.parseInt(chosenOriginAirportIndex) - index));
+        flightInfo.setChosenOriginAirport(cityAirports.get(Integer.parseInt(chosenOriginAirportIndex) - index));
     }
 
-    private void checkDestinationAiroports(int index) {
-        for (int i = index == 1 ? 0 : 1; i < destinationCityAirports.size(); i++) {
-            if (i == 0) {
-                System.out.println((i + 1) + ". " + "Any airport");
-                continue;
-            }
-            System.out.println((i + 1) + ". " + destinationCityAirports.get(i).get("PlaceName"));
-        }
+    private void setChoosenDestAirports(int index, ArrayList<Map<String, String>> cityAirports) {
         String chosenDestinationAirportIndex = read.nextLine();
-        flightInfo.setChosenDestinationAirport(destinationCityAirports.get(Integer.parseInt(chosenDestinationAirportIndex) - 1));
+        flightInfo.setChosenDestinationAirport(cityAirports.get(Integer.parseInt(chosenDestinationAirportIndex) - index));
     }
 }
