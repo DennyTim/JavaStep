@@ -64,8 +64,14 @@ public class FlightsService {
                 System.out.println("Price: " + "$" + price[0]);
                 System.out.println("Buy ticket: " + buy[0]);
             }
+
+
+
+
         });
     }
+
+
 
 
 }

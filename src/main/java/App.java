@@ -11,10 +11,10 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        //Online table
+//        Online table
 
-//        ConsoleView consoleView = new ConsoleView();
-//        consoleView.printData();
+        /*ConsoleView consoleView = new ConsoleView();
+        consoleView.printOnlineTableData();*/
 
         //Flight search
 
