@@ -4,6 +4,7 @@ import apiData.OnlineTableApi;
 import apiData.UserRequestInfo;
 import auth.UserAuth;
 import auth.UserData;
+import model.bookings.controller.BookingsController;
 import model.bookings.dao.BookingsDao;
 import model.bookings.dao.BookingsDaoImpl;
 import model.bookings.service.BookingsService;
@@ -40,6 +41,7 @@ public class ConsoleView {
         UserData actualUser = UserAuth.returnActualUser();
         BookingsDao bookingsDao = new BookingsDaoImpl(actualUser);
         BookingsService bookingService = new BookingsService(bookingsDao);
+        BookingsController bookingsController = new BookingsController(bookingService);
 
         originCoutry();
         originCity();
@@ -58,7 +60,7 @@ public class ConsoleView {
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
 
-        bookingService.add(fc.flightToBook(returnInput()));
+        bookingsController.add(fc.flightToBook(returnInput()));
     }
 
     private int returnInput() {
