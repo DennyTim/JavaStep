@@ -48,6 +48,10 @@ public class ConsoleView {
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
+
+        //returnInput return int
+
+        fc.flightToBook(0);
     }
     
     private void originCoutry() {

@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class FlightsService {
     private FlightsDaoImpl data;
+    private ArrayList<Map<String, Map<String, String>>> flightInfo;
+
 
     public FlightsService(FlightsDaoImpl data) {
         this.data = data;
@@ -14,7 +16,6 @@ public class FlightsService {
 
     public void printFlights() {
         ArrayList<Map<String, Map<String, String>>> flights = data.getFlightsData();
-
 
         int[] counter = {1};
         String[] price = {""};
@@ -69,9 +70,27 @@ public class FlightsService {
 
 
         });
+        flightInfo = flights;
     }
 
 
+    public Map<String, Map<String, String>> flightToBook(int userInput) {
+        ArrayList<Map<String, Map<String, String>>> formatedFlights = new ArrayList<>();
 
+
+        for (int i = 0, counter = 0; i < flightInfo.size(); i++) {
+            if (flightInfo.get(i).containsKey("outbound")) {
+                formatedFlights.add(flightInfo.get(i));
+            } else if (flightInfo.get(i).containsKey("inbound")) {
+                formatedFlights.get(counter).put("inbound", flightInfo.get(i).get("inbound"));
+                counter ++;
+            }
+        }
+
+
+
+        return formatedFlights.get(userInput);
+
+    }
 
 }
