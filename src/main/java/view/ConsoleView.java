@@ -24,19 +24,19 @@ public class ConsoleView {
 
 
     public void printOnlineTableData(){
-        originCoutry ();
+        originCountry();
         originCity();
         chooseOriginCityAirport();
         chooseDestinationDeparOrArriv();
         onlineTableApi.getData().printTableData();
     }
 
-    public void flightsService() {
-        originCoutry();
+    public  ArrayList<Map<String, Map<String, String>>> flightsService() {
+        originCountry();
         originCity();
         chooseOriginCityFlightsInfo();
 
-        destinationCoutry();
+        destinationCountry();
         destinationCity();
         chooseDestinationCityAirport();
 
@@ -47,16 +47,16 @@ public class ConsoleView {
         FlightsDaoImpl db = new FlightsDaoImpl().requestApiData(flightInfo);
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
-        fc.printFlights();
+        return fs.printFlights();
     }
-    
-    private void originCoutry() {
+
+    private void originCountry() {
         System.out.println("Enter origin country:");
         String originCountry = read.nextLine();
         flightInfo.setOriginCountry(originCountry);
     }
 
-    private void destinationCoutry() {
+    private void destinationCountry() {
         System.out.println("Enter destination country:");
         String destinationCountry = read.nextLine();
         flightInfo.setDestinationCountry(destinationCountry);
