@@ -48,12 +48,18 @@ public class ConsoleView {
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
-
-        //returnInput return int
-
-        fc.flightToBook(0);
+        System.out.println(fc.flightToBook(returnInput()));
     }
-    
+
+    private int returnInput() {
+        System.out.println();
+        System.out.println("--------------------------------" );
+        System.out.println();
+        System.out.println("Enter flight");
+        String index = read.nextLine();
+        return  Integer.parseInt(index);
+    }
+
     private void originCoutry() {
         System.out.println("Enter origin country:");
         String originCountry = read.nextLine();
