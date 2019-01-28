@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
 //        UserData actualUser = UserAuth.returnActualUser();
-
+//
 //        BookingsDao test = new BookingsDaoImpl(actualUser);
 //
 //        HashMap testData = new HashMap(){{
@@ -30,8 +30,8 @@ public class App {
 //        consoleView.printOnlineTableData();
 
         //Flight search
-//        ConsoleView consoleView = new ConsoleView();
-//        consoleView.flightsService();
+        ConsoleView consoleView = new ConsoleView();
+        consoleView.flightsService();
 
     }
 }
