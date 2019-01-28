@@ -52,17 +52,17 @@ public class BookingsDaoImpl implements BookingsDao{
     @Override
     public void save() {
         try {
-
-
             FileReader reader = new FileReader(PATH);
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
             JSONArray arr = (JSONArray) jsonObject.get("users");
 
             UserData user = null;
+            int userIndex = 0;
             for (int i = 0; i < arr.size(); i++) {
                 UserData aUser = gson.fromJson(String.valueOf(arr.get(i)), UserData.class);
                 if(aUser.getLogin().equals(actualUser.getLogin()) && aUser.getPassword().equals(actualUser.getPassword())){
+                    userIndex = i;
                     user = aUser;
                     break;
                 }
@@ -70,7 +70,7 @@ public class BookingsDaoImpl implements BookingsDao{
 
             user.setBookedFlights(bookedFlights);
 
-            arr.set(0,user.getUserControlToJson());
+            arr.set(userIndex,user.getUserControlToJson());
 
             FileWriter file = new FileWriter(PATH);
 
