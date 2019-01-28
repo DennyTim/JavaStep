@@ -18,7 +18,6 @@ public class BookingsDaoImpl implements BookingsDao{
     private UserData actualUser;
     private List<Map<String, Map<String, String>>> bookedFlights;
     private static final String PATH = "src/data/users.json";
-    private static final File USERS = new File(PATH);
     private static final JSONParser parser = new JSONParser();
     private static final Gson gson = new Gson();
 
@@ -67,7 +66,6 @@ public class BookingsDaoImpl implements BookingsDao{
                     break;
                 }
             }
-
             user.setBookedFlights(bookedFlights);
 
             arr.set(userIndex,user.getUserControlToJson());

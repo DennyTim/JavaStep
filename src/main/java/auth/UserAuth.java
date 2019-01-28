@@ -122,6 +122,14 @@ public class UserAuth {
         }
     }
 
+//
+////    delete. ready admin
+//    private static UserData signInActions() {
+//        return checkLogin("test");
+//    }
+
+
+
     private static UserData checkLogin(String login) {
         UserData user = null;
         for (UserData aUser : userControlList) {

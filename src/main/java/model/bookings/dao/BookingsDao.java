@@ -10,5 +10,4 @@ public interface BookingsDao {
     List<Map<String, Map<String,String>>> getAll();
     Map<String, Map<String,String>> get(int index);
     void save();
-
 }

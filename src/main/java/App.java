@@ -2,6 +2,7 @@ import auth.UserAuth;
 import auth.UserData;
 import model.bookings.dao.BookingsDao;
 import model.bookings.dao.BookingsDaoImpl;
+import model.bookings.service.BookingsService;
 import view.ConsoleView;
 
 import java.util.ArrayList;
@@ -11,18 +12,7 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-//        UserData actualUser = UserAuth.returnActualUser();
-//
-//        BookingsDao test = new BookingsDaoImpl(actualUser);
-//
-//        HashMap testData = new HashMap(){{
-//            put("Inbound",new HashMap<String,String>(){{
-//                put("valera","loh");
-//            }
-//            });
-//        }};
-//
-//        test.add(testData);
+
 
 //        Online table
 //
@@ -32,6 +22,7 @@ public class App {
         //Flight search
         ConsoleView consoleView = new ConsoleView();
         consoleView.flightsService();
+
 
     }
 }
