@@ -12,22 +12,7 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        UserData actualUser = UserAuth.returnActualUser();
-//
-        BookingsDao bookingsDao = new BookingsDaoImpl(actualUser);
-        BookingsService bookingService = new BookingsService(bookingsDao);
-//        System.out.println(bookingService.getAll());
-        bookingService.displayBookedFlights();
 
-//
-//        HashMap testData = new HashMap(){{
-//            put("Inbound",new HashMap<String,String>(){{
-//                put("valera","loh");
-//            }
-//            });
-//        }};
-//
-//        test.add(testData);
 
 //        Online table
 //
@@ -35,10 +20,9 @@ public class App {
 //        consoleView.printOnlineTableData();
 
         //Flight search
-//        ConsoleView consoleView = new ConsoleView();
-//       Map<String, Map<String, String>> mapTest = consoleView.flightsService().get(0);
-//        test.add(mapTest);
-//        test.add(consoleView.flightsService().get(1));
+        ConsoleView consoleView = new ConsoleView();
+        consoleView.flightsService();
+
 
     }
 }

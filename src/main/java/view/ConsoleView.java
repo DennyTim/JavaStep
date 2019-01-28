@@ -2,6 +2,11 @@ package view;
 
 import apiData.OnlineTableApi;
 import apiData.UserRequestInfo;
+import auth.UserAuth;
+import auth.UserData;
+import model.bookings.dao.BookingsDao;
+import model.bookings.dao.BookingsDaoImpl;
+import model.bookings.service.BookingsService;
 import model.flights.controller.FlightsController;
 import model.flights.dao.FlightsDaoImpl;
 import model.flights.service.FlightsService;
@@ -32,6 +37,10 @@ public class ConsoleView {
     }
 
     public void flightsService() {
+        UserData actualUser = UserAuth.returnActualUser();
+        BookingsDao bookingsDao = new BookingsDaoImpl(actualUser);
+        BookingsService bookingService = new BookingsService(bookingsDao);
+
         originCoutry();
         originCity();
         chooseOriginCityFlightsInfo();
@@ -48,7 +57,8 @@ public class ConsoleView {
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
-        System.out.println(fc.flightToBook(returnInput()));
+
+        bookingService.add(fc.flightToBook(returnInput()));
     }
 
     private int returnInput() {
@@ -57,7 +67,7 @@ public class ConsoleView {
         System.out.println();
         System.out.println("Enter flight");
         String index = read.nextLine();
-        return  Integer.parseInt(index);
+        return  Integer.parseInt(index)-1;
     }
 
     private void originCoutry() {

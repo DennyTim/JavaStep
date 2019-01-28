@@ -93,40 +93,40 @@ public class UserAuth {
         return new UserData(user, login, password);
     }
 
-//    private static UserData signInActions() {
-//        UserData actualUser = null;
-//
-//        loginLoop:
-//        while (true) {
-//            System.out.println("Enter your login");
-//            String login = in.nextLine();
-//            actualUser = checkLogin(login);
-//
-//            while (actualUser == null) {
-//                System.out.println("Incorrect login");
-//                continue loginLoop;
-//            }
-//
-//            passwordLoop:
-//            while (true) {
-//                System.out.println("Enter password");
-//                String password = in.nextLine();
-//
-//                while (!actualUser.getPassword().equals(password)) {
-//                    System.out.println("Incorrect password");
-//                    continue passwordLoop;
-//                }
-//
-//                return actualUser;
-//            }
-//        }
-//    }
-
-
-//    delete. ready admin
     private static UserData signInActions() {
-        return checkLogin("test");
+        UserData actualUser = null;
+
+        loginLoop:
+        while (true) {
+            System.out.println("Enter your login");
+            String login = in.nextLine();
+            actualUser = checkLogin(login);
+
+            while (actualUser == null) {
+                System.out.println("Incorrect login");
+                continue loginLoop;
+            }
+
+            passwordLoop:
+            while (true) {
+                System.out.println("Enter password");
+                String password = in.nextLine();
+
+                while (!actualUser.getPassword().equals(password)) {
+                    System.out.println("Incorrect password");
+                    continue passwordLoop;
+                }
+
+                return actualUser;
+            }
+        }
     }
+
+//
+////    delete. ready admin
+//    private static UserData signInActions() {
+//        return checkLogin("test");
+//    }
 
 
 

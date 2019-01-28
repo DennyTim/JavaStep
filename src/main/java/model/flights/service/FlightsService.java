@@ -38,6 +38,10 @@ public class FlightsService {
                 System.out.println("Flight number: " + outbound.get("carrierCode") + outbound.get("flightNumber"));
                 System.out.println("Trip duration: " + outbound.get("duration"));
 
+                price[0] = outbound.get("price");
+                buy[0] = outbound.get("buy");
+                counter[0]++;
+
                 if (!data.isTwoWayTrip()) {
                     System.out.println();
                     System.out.println();
@@ -45,10 +49,6 @@ public class FlightsService {
                     System.out.println("Buy ticket: " + buy[0]);
                 }
 
-
-                price[0] = outbound.get("price");
-                buy[0] = outbound.get("buy");
-                counter[0]++;
 
             } else if (e.keySet().contains("inbound")) {
                 Map<String, String> inbound = e.get("inbound");
