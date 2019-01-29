@@ -22,12 +22,13 @@ public class ConsoleView {
     private Scanner read = new Scanner(System.in);
     private ArrayList<Map<String, String>> originCityAirports;
     private ArrayList<Map<String, String>> destinationCityAirports;
+    private static BookingsController bookingsController;
+    private static FlightsController flightsController;
 
     public ConsoleView() {
         this.flightInfo = new UserRequestInfo();
         this.onlineTableApi = new OnlineTableApi();
     }
-
 
     public void printOnlineTableData(){
         originCoutry ();
@@ -37,30 +38,35 @@ public class ConsoleView {
         onlineTableApi.getData().printTableData();
     }
 
-    public void flightsService() {
-        UserData actualUser = UserAuth.returnActualUser();
-        BookingsDao bookingsDao = new BookingsDaoImpl(actualUser);
-        BookingsService bookingService = new BookingsService(bookingsDao);
-        BookingsController bookingsController = new BookingsController(bookingService);
-
+    private void getInfoWays() {
         originCoutry();
         originCity();
         chooseOriginCityFlightsInfo();
-
         destinationCoutry();
         destinationCity();
         chooseDestinationCityAirport();
-
+    }
+    private void getInfoDate() {
         outboundDate();
         inboundDate();
         cabineClass();
         adultsNumber();
+    }
+
+    private UserData userData(){
+        return UserAuth.returnActualUser();
+    }
+
+    private BookingsController bookingsController(UserData actualUser) {
+        BookingsDao bookingsDao = new BookingsDaoImpl(actualUser);
+        BookingsService bookingService = new BookingsService(bookingsDao);
+        return new BookingsController(bookingService);
+    }
+
+    private FlightsController fc() {
         FlightsDaoImpl db = new FlightsDaoImpl().requestApiData(flightInfo);
         FlightsService fs = new FlightsService(db);
-        FlightsController fc = new FlightsController(fs);
-        fc.printFlights();
-
-        bookingsController.add(fc.flightToBook(returnInput()));
+        return new FlightsController(fs);
     }
 
     private int returnInput() {
@@ -69,7 +75,44 @@ public class ConsoleView {
         System.out.println();
         System.out.println("Enter flight");
         String index = read.nextLine();
-        return  Integer.parseInt(index)-1;
+        return Integer.parseInt(index)-1;
+    }
+
+    private void flightService() {
+        getInfoWays();
+        getInfoDate();
+        flightsController = fc();
+        flightsController.printFlights();
+        bookingsController.add(flightsController.flightToBook(returnInput()));
+    }
+
+    public void mainMenu() {
+        UserData actualUser = userData();
+        bookingsController = bookingsController(actualUser);
+        System.out.println("---------------------------------------------------------------");
+        System.out.println();
+        System.out.println(" Our service welcomes you! What do you want to see from list? ");
+        System.out.println();
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("1. List of flights");
+        System.out.println("2. Flights today");
+        System.out.println("3. My bookings");
+        while(true) {
+            String index = read.nextLine();
+            switch (index) {
+                case "1":
+                    flightService();
+                    break;
+                case "2":
+                    printOnlineTableData();
+                    break;
+                case "3":
+                    bookingsController.displayBookedFlights();
+                    break;
+                case "exit":
+                    System.exit(0);
+            }
+        }
     }
 
     private void originCoutry() {
