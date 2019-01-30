@@ -1,4 +1,5 @@
 package auth;
+
 import com.google.gson.Gson;
 
 import org.json.simple.JSONArray;
@@ -8,7 +9,6 @@ import org.json.simple.parser.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class UserAuth {
@@ -18,21 +18,20 @@ public class UserAuth {
     private static final JSONParser parser = new JSONParser();
     private static final Gson gson = new Gson();
     private static final Scanner in = new Scanner(System.in);
-    private static List<UserData> userControlList;
-    private static List<Map<String, Map<String,String>>> actualUserBookedFlights;
+    private static List<UserData> userDataList;
     private static FileReader reader;
     private static JSONObject jsonObject;
 
     static {
         try {
-            if(!fileExists()){
+            if (!fileExists()) {
                 appendUser(generateAdmin());
             }
             reader = new FileReader(PATH);
             jsonObject = (JSONObject) parser.parse(reader);
             JSONArray jsonArray = (JSONArray) jsonObject.get("users");
 
-            userControlList = convertJSONArrayToList(jsonArray);
+            userDataList = convertJSONArrayToList(jsonArray);
 
         } catch (ParseException | IOException e) {
             e.printStackTrace();
@@ -41,23 +40,25 @@ public class UserAuth {
 
     public static UserData returnActualUser() {
         UserData actualUser = null;
-
-        generateCommands();
-        String ans = in.nextLine();
-        if (ans.equals("1")) {
-            actualUser = signInActions();
-        } else if (ans.equals("2")) {
-            actualUser = signUpActions();
-            appendUser(actualUser);
+        while (true) {
+            generateCommands();
+            String ans = in.nextLine();
+            if (ans.equals("1")) {
+                actualUser = signInActions();
+                if (actualUser == null) continue;
+            } else if (ans.equals("2")) {
+                actualUser = signUpActions();
+                if (actualUser == null) continue;
+                appendUser(actualUser);
+            }
+            break;
         }
 
-        if(actualUser != null){
-            actualUserBookedFlights = actualUser.getBookedFlights();
-        }
         return actualUser;
     }
 
     private static UserData signUpActions() {
+        UserData actualUser = null;
         System.out.println("Enter your name");
         String name = in.nextLine();
 
@@ -70,27 +71,36 @@ public class UserAuth {
         int age = Integer.parseInt(ageStr);
         User user = new User(name, surname, age);
 
-        System.out.println("Enter login");
+        System.out.println("Enter login (Write 'menu' to back to menu)");
         String login = in.nextLine();
+        if (isBackToMenu(login)) return actualUser;
 
         while (checkLogin(login) != null) {
             System.out.println("User with such login already exists");
-            System.out.println("Enter login once more");
+            System.out.println("Enter login once more (Write 'menu' to back to menu)");
             login = in.nextLine();
+            if (isBackToMenu(login)) return actualUser;
         }
 
-        System.out.println("Enter password");
+        System.out.println("Enter password (Write 'menu' to back to menu)");
         String password = in.nextLine();
+        if (isBackToMenu(password)) return actualUser;
 
-        System.out.println("Confirm password");
-        String confirmPassword = in.nextLine();
+        while (true) {
+            System.out.println("Confirm password (Write 'menu' to back to menu)");
+            String confirmPassword = in.nextLine();
+            if (isBackToMenu(confirmPassword)) return actualUser;
 
-        while (!confirmPassword.equals(password)){
-            System.out.println("Incorrect password. Enter once more");
-            confirmPassword = in.nextLine();
+            if (!confirmPassword.equals(password)) {
+                System.out.println("Incorrect password. Enter once more");
+                continue;
+            }
+            break;
         }
 
-        return new UserData(user, login, password);
+
+        actualUser = new UserData(user, login, password);
+        return actualUser;
     }
 
     private static UserData signInActions() {
@@ -98,8 +108,9 @@ public class UserAuth {
 
         loginLoop:
         while (true) {
-            System.out.println("Enter your login");
+            System.out.println("Enter your login (Write 'menu' to back to menu)");
             String login = in.nextLine();
+            if (isBackToMenu(login)) return actualUser;
             actualUser = checkLogin(login);
 
             while (actualUser == null) {
@@ -109,36 +120,31 @@ public class UserAuth {
 
             passwordLoop:
             while (true) {
-                System.out.println("Enter password");
+                System.out.println("Enter password (Write 'menu' to back to menu)");
                 String password = in.nextLine();
-
+                if (isBackToMenu(password)) return null;
                 while (!actualUser.getPassword().equals(password)) {
                     System.out.println("Incorrect password");
                     continue passwordLoop;
                 }
-
                 return actualUser;
             }
         }
+
+
     }
 
-//
-////    delete. ready admin
-//    private static UserData signInActions() {
-//        return checkLogin("test");
-//    }
-
-
+    private static boolean isBackToMenu(String input) {
+        return input.trim().toLowerCase().equals("menu");
+    }
 
     private static UserData checkLogin(String login) {
-        UserData user = null;
-        for (UserData aUser : userControlList) {
+        for (UserData aUser : userDataList) {
             if (aUser.getLogin().equals(login)) {
-                user = aUser;
+                return aUser;
             }
         }
-
-        return user;
+        return null;
     }
 
     private static List<UserData> convertJSONArrayToList(JSONArray jsonArray) {
@@ -160,7 +166,7 @@ public class UserAuth {
 
             file.write(jsonObject.toJSONString());
             file.flush();
-        }  catch (ParseException | IOException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -180,15 +186,15 @@ public class UserAuth {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             return flag;
         }
 
     }
 
-    private static UserData generateAdmin(){
-        User test = new User("Test","Test",33);
-        UserData testUser = new UserData(test,"test","test");
+    private static UserData generateAdmin() {
+        User test = new User("Test", "Test", 33);
+        UserData testUser = new UserData(test, "test", "test");
         return testUser;
     }
 
