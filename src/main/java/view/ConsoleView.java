@@ -69,13 +69,22 @@ public class ConsoleView {
         return new FlightsController(fs);
     }
 
-    private int returnInput() {
+    private void bookingChanged() {
         System.out.println();
         System.out.println("--------------------------------" );
         System.out.println();
         System.out.println("Enter flight");
         String index = read.nextLine();
-        return Integer.parseInt(index)-1;
+        bookingsController.add(flightsController.flightToBook(Integer.parseInt(index)-1));
+    }
+
+    private void deleteBooking() {
+        System.out.println();
+        System.out.println("--------------------------------" );
+        System.out.println();
+        System.out.println("Choose booking item");
+        String index = read.nextLine();
+        bookingsController.delete(Integer.parseInt(index)-1);
     }
 
     private void flightService() {
@@ -83,34 +92,60 @@ public class ConsoleView {
         getInfoDate();
         flightsController = fc();
         flightsController.printFlights();
-        bookingsController.add(flightsController.flightToBook(returnInput()));
     }
 
-    public void mainMenu() {
-        UserData actualUser = userData();
-        bookingsController = bookingsController(actualUser);
+    private void ourService(){
         System.out.println("---------------------------------------------------------------");
         System.out.println();
-        System.out.println(" Our service welcomes you! What do you want to see from list? ");
+        System.out.println(" Our service welcomes you! What do you want to see from list?  ");
         System.out.println();
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------");
         System.out.println("1. List of flights");
-        System.out.println("2. Flights today");
+        System.out.println("2. Online table");
         System.out.println("3. My bookings");
-        while(true) {
-            String index = read.nextLine();
-            switch (index) {
-                case "1":
-                    flightService();
-                    break;
-                case "2":
-                    printOnlineTableData();
-                    break;
-                case "3":
-                    bookingsController.displayBookedFlights();
-                    break;
-                case "exit":
-                    System.exit(0);
+        System.out.println("4. Cancel bookings");
+    }
+
+    public void consoleOut() {
+        UserData actualUser = userData();
+        bookingsController = bookingsController(actualUser);
+        ourService();
+        String index = read.nextLine();
+        while(true){
+            if (index.equalsIgnoreCase("exit")) {
+                break;
+            } else if(index.equalsIgnoreCase("menu")) {
+                ourService();
+                index = read.nextLine();
+            }
+            int item = Integer.parseInt(index);
+            if (item > 0 && item < 5) {
+                switch (item){
+                    case 1:
+                        flightService();
+                        bookingChanged();
+                        System.out.println("Complete auth, do you want show 'menu' or 'exit'");
+                        index = read.nextLine();
+                        break;
+                    case 2:
+                        printOnlineTableData();
+                        System.out.println("Complete auth, do you want show 'menu' or 'exit'");
+                        index = read.nextLine();
+                        break;
+                    case 3:
+                        bookingsController.displayBookedFlights();
+                        System.out.println("Complete auth, do you want show 'menu' or 'exit'");
+                        index = read.nextLine();
+                        break;
+                    case 4:
+                        bookingsController.displayBookedFlights();
+                        deleteBooking();
+                        System.out.println("Complete auth, do you want show 'menu' or 'exit'");
+                        index = read.nextLine();
+                        break;
+                }
+            } else {
+                break;
             }
         }
     }

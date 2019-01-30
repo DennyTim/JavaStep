@@ -21,7 +21,7 @@ public class App {
 
         //Flight search
         ConsoleView consoleView = new ConsoleView();
-        consoleView.mainMenu();
+        consoleView.consoleOut();
 
     }
 }
