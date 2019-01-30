@@ -17,6 +17,7 @@ public class FlightsService {
     public void printFlights() {
         ArrayList<Map<String, Map<String, String>>> flights = data.getFlightsData();
 
+
         int[] counter = {1};
         String[] price = {""};
         String[] buy = {""};
@@ -70,6 +71,8 @@ public class FlightsService {
 
 
         });
+
+        if (flights.size() < 1) throw new RuntimeException();
         flightInfo = flights;
     }
 
@@ -86,8 +89,6 @@ public class FlightsService {
                 counter ++;
             }
         }
-
-
 
         return formatedFlights.get(userInput);
 

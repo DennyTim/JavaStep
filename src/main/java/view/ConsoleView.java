@@ -4,6 +4,7 @@ import apiData.OnlineTableApi;
 import apiData.UserRequestInfo;
 import auth.UserAuth;
 import auth.UserData;
+import exceptions.AirportsNotFoundException;
 import model.bookings.controller.BookingsController;
 import model.bookings.dao.BookingsDao;
 import model.bookings.dao.BookingsDaoImpl;
@@ -11,6 +12,7 @@ import model.bookings.service.BookingsService;
 import model.flights.controller.FlightsController;
 import model.flights.dao.FlightsDaoImpl;
 import model.flights.service.FlightsService;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -43,9 +45,15 @@ public class ConsoleView {
         BookingsService bookingService = new BookingsService(bookingsDao);
         BookingsController bookingsController = new BookingsController(bookingService);
 
-        originCoutry();
-        originCity();
-        chooseOriginCityFlightsInfo();
+        try {
+            originCoutry();
+            originCity();
+            chooseOriginCityFlightsInfo();
+        } catch (RuntimeException e) {
+            System.out.println("No airports found, try again");
+
+        }
+
 
         destinationCoutry();
         destinationCity();
@@ -55,7 +63,17 @@ public class ConsoleView {
         inboundDate();
         cabineClass();
         adultsNumber();
-        FlightsDaoImpl db = new FlightsDaoImpl().requestApiData(flightInfo);
+        FlightsDaoImpl db = null;
+
+        try {
+            db = new FlightsDaoImpl().requestApiData(flightInfo);
+        } catch (JSONException e) {
+            System.out.println("Nothing was found, check flight data and try again:");
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            flightsService();
+        }
         FlightsService fs = new FlightsService(db);
         FlightsController fc = new FlightsController(fs);
         fc.printFlights();
@@ -75,25 +93,25 @@ public class ConsoleView {
     private void originCoutry() {
         System.out.println("Enter origin country:");
         String originCountry = read.nextLine();
-        flightInfo.setOriginCountry(originCountry);
+        flightInfo.setOriginCountry(Validation.validateCountry(originCountry));
     }
 
     private void destinationCoutry() {
         System.out.println("Enter destination country:");
         String destinationCountry = read.nextLine();
-        flightInfo.setDestinationCountry(destinationCountry);
+        flightInfo.setDestinationCountry(Validation.validateCountry(destinationCountry));
     }
 
     private void destinationCity() {
         System.out.println("Enter destination city:");
         String destinationCity = read.nextLine();
-        flightInfo.setDestinationCity(destinationCity);
+        flightInfo.setDestinationCity(Validation.validateCity(destinationCity));
     }
 
     private void originCity() {
         System.out.println("Enter origin city:");
         String originCity = read.nextLine();
-        flightInfo.setOriginCity(originCity);
+        flightInfo.setOriginCity(Validation.validateCity(originCity));
     }
 
     private void chooseOriginCityAirport() {
@@ -110,6 +128,16 @@ public class ConsoleView {
 
     private void chooseOriginCityFlightsInfo(){
         originCityAirports = flightInfo.getCityInfo(flightInfo.getOriginCity(), flightInfo.getOriginCountry());
+
+        //airport excep
+
+        if (originCityAirports.size() == 0) try {
+            throw new AirportsNotFoundException("No airports found, try again.");
+        } catch (AirportsNotFoundException e) {
+            System.out.println(e.getMessage());
+            originCity();
+            chooseOriginCityFlightsInfo();
+        }
         System.out.println("Choose origin city airport:");
         checkAiroports(originCityAirports);
         setChoosenOriginAirports(originCityAirports);
@@ -117,6 +145,12 @@ public class ConsoleView {
 
     private void chooseDestinationCityAirport() {
         destinationCityAirports = flightInfo.getCityInfo(flightInfo.getDestinationCity(), flightInfo.getDestinationCountry());
+
+        //airport excep
+
+        if (destinationCityAirports.size() == 0) {
+            throw new RuntimeException("Airports not found");
+        }
         System.out.println("Choose destionation city airport:");
         checkAiroports(destinationCityAirports);
         setChoosenDestAirports(destinationCityAirports);
@@ -125,7 +159,7 @@ public class ConsoleView {
     private void outboundDate(){
         System.out.println("Enter outbound date(yyyy-mm-dd):");
         String outboundDate = read.nextLine();
-        flightInfo.setOutboundDate(outboundDate);
+        flightInfo.setOutboundDate(Validation.validateDate(outboundDate));
     }
 
     private void inboundDate(){
@@ -136,7 +170,7 @@ public class ConsoleView {
             System.out.println("Enter inbound date(yyyy-mm-dd):");
             String inboundDate = read.nextLine();
             flightInfo.setTwoWayTrip(true);
-            flightInfo.setInboundDate(inboundDate);
+            flightInfo.setInboundDate(Validation.validateDate(inboundDate));
         }
     }
 
