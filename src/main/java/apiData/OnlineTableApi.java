@@ -16,8 +16,6 @@ public class OnlineTableApi {
     private JSONObject tableJson;
     private ProgressBar pb = new ProgressBar("Loading airport table", 100);
 
-
-
     public OnlineTableApi(String airportCode, String departureOrArrival) {
 
         this.airportCode = airportCode;
