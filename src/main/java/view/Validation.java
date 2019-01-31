@@ -1,18 +1,37 @@
 package view;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class Validation {
 
     private static final Scanner read = new Scanner(System.in);
+    public final static String validateAge = "([1-9]){1}[0-9]{2}";
+    public final static String valdiateNameSurname = "^[a-zA-Z]+";
+    public final static String validateLogin = "[a-zA-Z0-9]{3,}";
+    public final static String validatePassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
+
 
     private Validation() {}
 
+    public static boolean isValidatePassword(String login){
+        return login.matches(validatePassword);
+    }
+
+    public static boolean isValidateLogin(String login){
+        return login.matches(validateLogin);
+    }
+
+    public static boolean checkAge(String age){
+        return age.matches(validateAge);
+    }
+
+    public static boolean checkNameSurname(String input){
+        return input.matches(valdiateNameSurname);
+    }
+
     public static String validateCountry(String country) {
 
-        String countryFinal = country.substring(0, 1).toUpperCase() + country.substring(1);
+        String countryFinal = country.length() > 1 ? country.substring(0, 1).toUpperCase() + country.substring(1) : "";
 
 
         Map<String, String> countries = new HashMap<String, String>();
@@ -129,5 +148,7 @@ public final class Validation {
 
         return input;
     }
+
+
 
 }
