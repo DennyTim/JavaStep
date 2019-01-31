@@ -1,5 +1,7 @@
 package model.bookings.controller;
 
+import auth.UserData;
+import model.bookings.dao.BookingsDao;
 import model.bookings.service.BookingsService;
 
 import java.util.List;
@@ -7,11 +9,6 @@ import java.util.Map;
 
 public class BookingsController {
     private BookingsService bookingsService;
-
-
-    public BookingsController(BookingsService bookingsService) {
-        this.bookingsService = bookingsService;
-    }
 
     public void displayBookedFlights(){
         bookingsService.displayBookedFlights();
@@ -31,5 +28,9 @@ public class BookingsController {
 
     public Map<String, Map<String, String>> get(int index) {
         return bookingsService.get(index);
+    }
+
+    public void setBookingsData (UserData actualUser) {
+        bookingsService = BookingsService.setBookingsData(actualUser);
     }
 }

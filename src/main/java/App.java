@@ -1,5 +1,6 @@
 import auth.UserAuth;
 import auth.UserData;
+import exceptions.ExitException;
 import model.bookings.dao.BookingsDao;
 import model.bookings.dao.BookingsDaoImpl;
 import model.bookings.service.BookingsService;
@@ -12,13 +13,10 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        ConsoleView consoleView = new ConsoleView();
 
-//        Online table
-        consoleView.printOnlineTableData();
-//
-//        //Flight search
-//        consoleView.flightsService();
+
+        ConsoleView consoleView = new ConsoleView();
+        consoleView.userInputController();
 
 
     }

@@ -20,10 +20,22 @@ public class BookingsDaoImpl implements BookingsDao{
     private static final String PATH = "src/data/users.json";
     private static final JSONParser parser = new JSONParser();
     private static final Gson gson = new Gson();
+    private static BookingsDaoImpl dao;
 
-    public BookingsDaoImpl(UserData actualUser) {
+    private BookingsDaoImpl() {};
+
+    public static BookingsDaoImpl instance() {
+        if (dao == null) {
+            dao = new BookingsDaoImpl();
+        }
+
+        return dao;
+    }
+
+    public BookingsDaoImpl setActualUser(UserData actualUser) {
         this.actualUser = actualUser;
         bookedFlights = actualUser.getBookedFlights();
+        return this;
     }
 
     @Override
