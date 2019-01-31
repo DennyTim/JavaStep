@@ -5,8 +5,8 @@ import java.util.*;
 public final class Validation {
 
     private static final Scanner read = new Scanner(System.in);
-    public final static String validateAge = "([1-9]){1}[0-9]{2}";
-    public final static String valdiateNameSurname = "^[a-zA-Z]+";
+    public final static String validateAge = "([1-9]){1}[0-9]{1,2}";
+    public final static String validateNameSurname = "^[a-zA-Z]+";
     public final static String validateLogin = "[a-zA-Z0-9]{3,}";
     public final static String validatePassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
 
@@ -26,7 +26,7 @@ public final class Validation {
     }
 
     public static boolean checkNameSurname(String input){
-        return input.matches(valdiateNameSurname);
+        return input.matches(validateNameSurname);
     }
 
     public static String validateCountry(String country) {
@@ -148,7 +148,5 @@ public final class Validation {
 
         return input;
     }
-
-
 
 }
