@@ -2,16 +2,24 @@ package model.bookings.service;
 
 import auth.UserData;
 import model.bookings.dao.BookingsDao;
+import model.bookings.dao.BookingsDaoImpl;
 
+import javax.xml.ws.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
 public class BookingsService {
-    private BookingsDao bookingsData;
+    private static BookingsDao bookingsData;
+    private static BookingsService service;
 
-    public BookingsService(BookingsDao bookingsData) {
-        this.bookingsData = bookingsData;
+    private BookingsService() {}
+
+    public static BookingsService instance() {
+        if (service == null) {
+            service = new BookingsService();
+        }
+        return service;
     }
 
     public void displayBookedFlights(){
@@ -56,6 +64,13 @@ public class BookingsService {
     public Map<String, Map<String, String>> get(int index) {
         return bookingsData.get(index);
     }
+
+    public static BookingsService setBookingsData(UserData actualUser) {
+        bookingsData = BookingsDaoImpl.instance().setActualUser(actualUser);
+        return BookingsService.instance();
+    }
+
+
 
 
 }

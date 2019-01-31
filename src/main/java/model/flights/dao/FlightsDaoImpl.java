@@ -34,4 +34,5 @@ public class FlightsDaoImpl implements FlightsDao {
     public boolean isTwoWayTrip() {
         return twoWayTrip;
     }
+
 }

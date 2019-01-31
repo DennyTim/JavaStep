@@ -1,6 +1,8 @@
 package model.flights.service;
 
+import apiData.UserRequestInfo;
 import model.flights.dao.FlightsDaoImpl;
+import view.Validation;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -8,10 +10,16 @@ import java.util.Map;
 public class FlightsService {
     private FlightsDaoImpl data;
     private ArrayList<Map<String, Map<String, String>>> flightInfo;
+    private ArrayList<Map<String, Map<String, String>>> formattedFlights;
 
 
-    public FlightsService(FlightsDaoImpl data) {
+    private FlightsService(FlightsDaoImpl data) {
         this.data = data;
+    }
+
+    public static FlightsService instance(UserRequestInfo userRequest) {
+        FlightsDaoImpl db = new FlightsDaoImpl().requestApiData(userRequest);
+        return new FlightsService(db);
     }
 
     public void printFlights() {
@@ -72,26 +80,32 @@ public class FlightsService {
 
         });
 
-        if (flights.size() < 1) throw new RuntimeException();
+        if (flights.size() == 0) throw new RuntimeException("Flights not found");
+
         flightInfo = flights;
     }
 
 
     public Map<String, Map<String, String>> flightToBook(int userInput) {
-        ArrayList<Map<String, Map<String, String>>> formatedFlights = new ArrayList<>();
+        formattedFlights = new ArrayList<>();
 
 
         for (int i = 0, counter = 0; i < flightInfo.size(); i++) {
             if (flightInfo.get(i).containsKey("outbound")) {
-                formatedFlights.add(flightInfo.get(i));
+                formattedFlights.add(flightInfo.get(i));
             } else if (flightInfo.get(i).containsKey("inbound")) {
-                formatedFlights.get(counter).put("inbound", flightInfo.get(i).get("inbound"));
+                formattedFlights.get(counter).put("inbound", flightInfo.get(i).get("inbound"));
                 counter ++;
             }
         }
 
-        return formatedFlights.get(userInput);
+
+
+        return formattedFlights.get(Validation.validateFlightToBookInput(userInput, formattedFlights.size()));
 
     }
 
+    public ArrayList<Map<String, Map<String, String>>> getFormattedFlights() {
+        return formattedFlights;
+    }
 }

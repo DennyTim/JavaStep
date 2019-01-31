@@ -23,6 +23,8 @@ public class FlightsResponseInfo {
     private boolean twoWayTrip;
     private boolean requireCabinClass;
     private String apiKey = "c401012205msh38febc44f4dbc18p159169jsn0206f678248f";
+    public static ProgressBar pb = new ProgressBar("Loading avialable flights", 100);
+
 
 
     static {
@@ -88,7 +90,7 @@ public class FlightsResponseInfo {
 
 
     public JSONObject getResponceData() {
-        ProgressBar pb = new ProgressBar("Loading avialable flights", 100);
+        pb = new ProgressBar("Loading avialable flights", 100);
         pb.start();
         String session = createSession();
         pb.stepTo(25);
@@ -109,6 +111,7 @@ public class FlightsResponseInfo {
             return json;
 
         } catch (UnirestException e) {
+            pb.stop();
             e.printStackTrace();
         }
 
