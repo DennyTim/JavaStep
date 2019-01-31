@@ -30,13 +30,6 @@ public class UserData{
         return jsonUserControl;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
     public List<Map<String, Map<String, String>>> getBookedFlights() {
         return bookedFlights;
@@ -46,6 +39,13 @@ public class UserData{
         this.bookedFlights = bookedFlights;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public String toString() {
