@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+import view.Validation;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -50,6 +51,9 @@ public class UserAuth {
                 actualUser = signUpActions();
                 if (actualUser == null) continue;
                 appendUser(actualUser);
+            } else {
+                System.out.println("Incorrect input. Enter 1 or 2");
+                continue;
             }
             break;
         }
@@ -59,14 +63,29 @@ public class UserAuth {
 
     private static UserData signUpActions() {
         UserData actualUser = null;
+
         System.out.println("Enter your name");
         String name = in.nextLine();
+        while (!Validation.checkNameSurname(name)) {
+            System.out.println("Incorrect name. Enter once more");
+            name = in.nextLine();
+        }
 
         System.out.println("Enter your surname");
         String surname = in.nextLine();
 
+        while (!Validation.checkNameSurname(surname)) {
+            System.out.println("Incorrect surname. Enter once more");
+            surname = in.nextLine();
+        }
+
         System.out.println("Enter your age");
         String ageStr = in.nextLine();
+
+        while (!Validation.checkAge(ageStr)) {
+            System.out.println("Incorrect age.Enter once more");
+            ageStr = in.nextLine();
+        }
 
         int age = Integer.parseInt(ageStr);
         User user = new User(name, surname, age);
