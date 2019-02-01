@@ -6,16 +6,9 @@ import apiData.UserRequestInfo;
 import auth.UserAuth;
 import auth.UserData;
 import exceptions.AirportsNotFoundException;
-import exceptions.ExitException;
 import exceptions.NoFlightsBooked;
 import model.bookings.controller.BookingsController;
-import model.bookings.dao.BookingsDao;
-import model.bookings.dao.BookingsDaoImpl;
-import model.bookings.service.BookingsService;
 import model.flights.controller.FlightsController;
-import model.flights.dao.FlightsDaoImpl;
-import model.flights.service.FlightsService;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -155,7 +148,6 @@ public class ConsoleView {
     private void chooseOriginCityFlightsInfo(){
         originCityAirports = flightInfo.getCityInfo(flightInfo.getOriginCity(), flightInfo.getOriginCountry());
 
-        //airport excep
 
         if (originCityAirports.size() == 0) try {
             throw new AirportsNotFoundException("No airports found, try again.");
@@ -173,7 +165,6 @@ public class ConsoleView {
     private void chooseDestinationCityAirport() {
         destinationCityAirports = flightInfo.getCityInfo(flightInfo.getDestinationCity(), flightInfo.getDestinationCountry());
 
-        //airport excep
 
         if (destinationCityAirports.size() == 0) {
             try {

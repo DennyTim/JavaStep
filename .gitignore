@@ -4,3 +4,6 @@
 *.com
 *.class
 /out
+/data
+/tmp
+*.log

@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class FlightsDaoImpl implements FlightsDao {
+
     private ArrayList<Map<String, Map<String, String>>> flightsData;
     private boolean twoWayTrip;
-
 
     public FlightsDaoImpl requestApiData(UserRequestInfo userRequest) {
         FlightsResponseInfo apiRequest = new FlightsResponseInfo(userRequest);
@@ -21,7 +21,6 @@ public class FlightsDaoImpl implements FlightsDao {
         flightsData = flightsContainer.getFlights();
         return this;
     }
-
 
     public void setFlightsData(FlightsData data) {
         flightsData = data.getFlights();

@@ -2,7 +2,6 @@ package auth;
 
 import org.json.JSONObject;
 
-import java.util.Objects;
 
 public class User{
 
@@ -33,16 +32,4 @@ public class User{
                 "}";
     }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public int getAge() {
-        return age;
-    }
 }

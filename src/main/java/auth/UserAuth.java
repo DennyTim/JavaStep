@@ -94,7 +94,7 @@ public class UserAuth {
         String login = in.nextLine();
         if (isBackToMenu(login)) return actualUser;
 
-        while (!Validation.isValidateLogin(login)){
+        while (!Validation.isValidLogin(login)){
             if (isBackToMenu(login)) return actualUser;
             System.out.println("Login must be at list 3 characters, contain word and number characters only. Try again");
             login = in.nextLine();
@@ -111,7 +111,7 @@ public class UserAuth {
         String password = in.nextLine();
         if (isBackToMenu(password)) return actualUser;
 
-        while (!Validation.isValidatePassword(password)){
+        while (!Validation.isValidPassword(password)){
             System.out.println("Password must be at list 6 characters, contain word and number characters, symbols: '-', '.', '@', '$', '%' only. Try again");
             password = in.nextLine();
         }

@@ -22,15 +22,19 @@ public class FlightsService {
         return new FlightsService(db);
     }
 
-    public void printFlights() {
-        ArrayList<Map<String, Map<String, String>>> flights = data.getFlightsData();
 
+
+    public void printFlights() {
+
+        if (flightInfo == null) setFlightInfo();
+
+        System.out.println(flightInfo.size());
 
         int[] counter = {1};
         String[] price = {""};
         String[] buy = {""};
 
-        flights.forEach(e -> {
+        flightInfo.forEach(e -> {
 
 
             if (e.keySet().contains("outbound")) {
@@ -59,7 +63,9 @@ public class FlightsService {
                 }
 
 
-            } else if (e.keySet().contains("inbound")) {
+            }
+
+            if (e.keySet().contains("inbound")) {
                 Map<String, String> inbound = e.get("inbound");
                 System.out.println();
                 System.out.println();
@@ -80,32 +86,21 @@ public class FlightsService {
 
         });
 
-        if (flights.size() == 0) throw new RuntimeException("Flights not found");
-
-        flightInfo = flights;
+        if (flightInfo.size() == 0) throw new RuntimeException("Flights not found");
     }
 
 
     public Map<String, Map<String, String>> flightToBook(int userInput) {
-        formattedFlights = new ArrayList<>();
 
-
-        for (int i = 0, counter = 0; i < flightInfo.size(); i++) {
-            if (flightInfo.get(i).containsKey("outbound")) {
-                formattedFlights.add(flightInfo.get(i));
-            } else if (flightInfo.get(i).containsKey("inbound")) {
-                formattedFlights.get(counter).put("inbound", flightInfo.get(i).get("inbound"));
-                counter ++;
-            }
-        }
-
-
-
-        return formattedFlights.get(Validation.validateFlightToBookInput(userInput, formattedFlights.size()));
+        return flightInfo.get(Validation.validateFlightToBookInput(userInput, flightInfo.size()));
 
     }
 
     public ArrayList<Map<String, Map<String, String>>> getFormattedFlights() {
         return formattedFlights;
+    }
+
+    public void setFlightInfo() {
+        this.flightInfo = data.getFlightsData();
     }
 }
