@@ -7,6 +7,7 @@ import auth.UserAuth;
 import auth.UserData;
 import exceptions.AirportsNotFoundException;
 import exceptions.NoFlightsBooked;
+import logging.Logger;
 import model.bookings.controller.BookingsController;
 import model.flights.controller.FlightsController;
 
@@ -47,10 +48,14 @@ public class ConsoleView {
         chooseOriginCityAirport();
         chooseDestinationDeparOrArriv();
         onlineTableApi.getData().printTableData();
+
+        Logger.info("ConsoleView: printed online table");
+
         backToMainMenu();
     }
 
     public void flightsService() {
+
         originCoutry();
         originCity();
         chooseOriginCityFlightsInfo();
@@ -71,6 +76,7 @@ public class ConsoleView {
             bookingsController.add(fc.flightToBook(returnInput()));
         } catch (RuntimeException e) {
             FlightsResponseInfo.pb.stop();
+            Logger.error("ConsoleView: no flights found");
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e1) {
@@ -82,6 +88,7 @@ public class ConsoleView {
             System.out.println();
             flightsService();
         } catch (NoFlightsBooked noFlightsBooked) {
+            Logger.error("ConsoleView: user didn't booked any flight by search");
             userInputController();
         }
 
@@ -342,11 +349,13 @@ public class ConsoleView {
                 }
                 break;
             case "5":
+                Logger.info("ConsoleView: log out");
                 actualUser = UserAuth.returnActualUser();
                 bookingsController.setBookingsData(actualUser);
                 userInputController();
                 break;
             case "6":
+                Logger.info("ConsoleView: exit");
                 System.out.println("Good bye!");
                 break;
         }

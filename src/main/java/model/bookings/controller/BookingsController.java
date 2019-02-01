@@ -1,6 +1,8 @@
 package model.bookings.controller;
 
 import auth.UserData;
+import logging.Logger;
+import model.bookings.dao.BookingsDao;
 import model.bookings.service.BookingsService;
 
 import java.util.List;
@@ -11,14 +13,17 @@ public class BookingsController {
 
     public void displayBookedFlights(){
         bookingsService.displayBookedFlights();
+        Logger.info("Booking: Display booked flights");
     }
 
     public void delete(int index) {
         bookingsService.delete(index);
+        Logger.info("Booking: Delete booking ");
     }
 
     public void add(Map<String, Map<String, String>> flight) {
         bookingsService.add(flight);
+        Logger.info("Booking: Add new flight");
     }
 
     public List<Map<String, Map<String, String>>> getAll() {
@@ -31,5 +36,6 @@ public class BookingsController {
 
     public void setBookingsData (UserData actualUser) {
         bookingsService = BookingsService.setBookingsData(actualUser);
+        Logger.info("Booking: New actual user");
     }
 }

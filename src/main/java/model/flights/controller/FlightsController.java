@@ -1,6 +1,7 @@
 package model.flights.controller;
 
 import apiData.UserRequestInfo;
+import logging.Logger;
 import model.flights.service.FlightsService;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ public class FlightsController {
 
     public void printFlights() {
         flightsService.printFlights();
+        Logger.info("Flights: printed flights");
     }
 
     public Map<String, Map<String, String>> flightToBook(int userInput) {

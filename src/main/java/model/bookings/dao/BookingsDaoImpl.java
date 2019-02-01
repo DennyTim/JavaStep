@@ -21,7 +21,7 @@ public class BookingsDaoImpl implements BookingsDao{
     private static final Gson gson = new Gson();
     private static BookingsDaoImpl dao;
 
-    private BookingsDaoImpl() {};
+    private BookingsDaoImpl() {}
 
     public static BookingsDaoImpl instance() {
         if (dao == null) {

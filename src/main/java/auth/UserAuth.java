@@ -2,6 +2,7 @@ package auth;
 
 import com.google.gson.Gson;
 
+import logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -16,6 +17,7 @@ public class UserAuth {
 
     private static final String PATH = "src/data/users.json";
     private static final File USERS = new File(PATH);
+    private final static File dir = new File("src/data");
     private static final JSONParser parser = new JSONParser();
     private static final Gson gson = new Gson();
     private static final Scanner in = new Scanner(System.in);
@@ -27,6 +29,7 @@ public class UserAuth {
         try {
             if (!fileExists()) {
                 appendUser(generateAdmin());
+                Logger.info("Admin generated");
             }
             reader = new FileReader(PATH);
             jsonObject = (JSONObject) parser.parse(reader);
@@ -38,6 +41,8 @@ public class UserAuth {
             e.printStackTrace();
         }
     }
+
+    private UserAuth(){}
 
     public static UserData returnActualUser() {
         UserData actualUser = null;
@@ -51,13 +56,14 @@ public class UserAuth {
                 actualUser = signUpActions();
                 if (actualUser == null) continue;
                 appendUser(actualUser);
+
             } else {
                 System.out.println("Incorrect input. Enter 1 or 2");
                 continue;
             }
             break;
         }
-
+        Logger.info("User signed in");
         return actualUser;
     }
 
@@ -203,6 +209,11 @@ public class UserAuth {
     private static boolean fileExists() {
         boolean flag = true;
         try {
+
+            if(!dir.exists()){
+                dir.mkdirs();
+            }
+
             if (!USERS.exists()) {
                 USERS.createNewFile();
                 JSONArray arr = new JSONArray();
