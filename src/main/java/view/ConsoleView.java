@@ -73,7 +73,7 @@ public class ConsoleView {
         try {
             FlightsController fc = FlightsController.instance(flightInfo);
             fc.printFlights();
-            bookingsController.add(fc.flightToBook(returnInput()));
+            bookingsController. add(fc.flightToBook(returnInput()));
         } catch (RuntimeException e) {
             FlightsResponseInfo.pb.stop();
             Logger.error("ConsoleView: no flights found");

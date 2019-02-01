@@ -27,7 +27,6 @@ public class FlightsService {
 
         if (flightInfo == null) setFlightInfo();
 
-        System.out.println(flightInfo.size());
 
         int[] counter = {1};
         String[] price = {""};

@@ -26,20 +26,7 @@ public class UserAuth {
     private static JSONObject jsonObject;
 
     static {
-        try {
-            if (!fileExists()) {
-                appendUser(generateAdmin());
-                Logger.info("Admin generated");
-            }
-            reader = new FileReader(PATH);
-            jsonObject = (JSONObject) parser.parse(reader);
-            JSONArray jsonArray = (JSONArray) jsonObject.get("users");
-
-            userDataList = convertJSONArrayToList(jsonArray);
-
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
+        update();
     }
 
     private UserAuth(){}
@@ -63,6 +50,7 @@ public class UserAuth {
             }
             break;
         }
+        update();
         Logger.info("User signed in");
         return actualUser;
     }
@@ -167,6 +155,23 @@ public class UserAuth {
         }
 
 
+    }
+
+    private static void update() {
+        try {
+            if (!fileExists()) {
+                appendUser(generateAdmin());
+                Logger.info("Admin generated");
+            }
+            reader = new FileReader(PATH);
+            jsonObject = (JSONObject) parser.parse(reader);
+            JSONArray jsonArray = (JSONArray) jsonObject.get("users");
+
+            userDataList = convertJSONArrayToList(jsonArray);
+
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static boolean isBackToMenu(String input) {

@@ -88,8 +88,7 @@ public final class Validation {
     }
 
     public static String validateBookedFlightIndex(String index, int size) {
-        int integerIndex = Integer.parseInt(index);
-        if (!index.matches("d+") && integerIndex <= size && integerIndex > 0) {
+        if (index.matches("\\d+") && Integer.parseInt(index) <= size && Integer.parseInt(index) > 0) {
             return index;
         } else {
             System.out.println("Please, choose correct index:");
