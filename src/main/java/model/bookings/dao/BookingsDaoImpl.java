@@ -7,7 +7,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class BookingsDaoImpl implements BookingsDao{
     private static final Gson gson = new Gson();
     private static BookingsDaoImpl dao;
 
-    private BookingsDaoImpl() {};
+    private BookingsDaoImpl() {}
 
     public static BookingsDaoImpl instance() {
         if (dao == null) {

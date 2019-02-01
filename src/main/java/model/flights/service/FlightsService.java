@@ -59,7 +59,7 @@ public class FlightsService {
                 }
 
 
-            } else if (e.keySet().contains("inbound")) {
+            } if (e.keySet().contains("inbound")) {
                 Map<String, String> inbound = e.get("inbound");
                 System.out.println();
                 System.out.println();
@@ -98,9 +98,6 @@ public class FlightsService {
                 counter ++;
             }
         }
-
-
-
         return formattedFlights.get(Validation.validateFlightToBookInput(userInput, formattedFlights.size()));
 
     }
