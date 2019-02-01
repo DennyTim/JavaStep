@@ -4,29 +4,29 @@ import java.util.*;
 
 public final class Validation {
 
-    private static final Scanner read = new Scanner(System.in);
-    public final static String validateAge = "([1-9]){1}[0-9]{1,2}";
-    public final static String validateNameSurname = "^[a-zA-Z]+";
-    public final static String validateLogin = "[a-zA-Z0-9]{3,}";
-    public final static String validatePassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
+    private final static Scanner read = new Scanner(System.in);
+    private final static String validAge = "([1-9]){1}[0-9]{1,2}";
+    private final static String validNameSurname = "^[a-zA-Z]+";
+    private final static String validLogin = "[a-zA-Z0-9]{3,}";
+    private final static String validPassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
 
 
     private Validation() {}
 
-    public static boolean isValidatePassword(String login){
-        return login.matches(validatePassword);
+    public static boolean isValidPassword(String login){
+        return login.matches(validPassword);
     }
 
-    public static boolean isValidateLogin(String login){
-        return login.matches(validateLogin);
+    public static boolean isValidLogin(String login){
+        return login.matches(validLogin);
     }
 
     public static boolean checkAge(String age){
-        return age.matches(validateAge);
+        return age.matches(validAge);
     }
 
     public static boolean checkNameSurname(String input){
-        return input.matches(validateNameSurname);
+        return input.matches(validNameSurname);
     }
 
     public static String validateCountry(String country) {

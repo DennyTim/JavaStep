@@ -3,11 +3,10 @@ package model.flights.controller;
 import apiData.UserRequestInfo;
 import logging.Logger;
 import model.flights.service.FlightsService;
-
-import java.util.List;
 import java.util.Map;
 
 public class FlightsController {
+
     private FlightsService flightsService;
 
     private FlightsController(FlightsService flightsService) {
@@ -27,7 +26,4 @@ public class FlightsController {
         return new FlightsController(FlightsService.instance(userRequestInfo));
     }
 
-    public List<Map<String, Map<String, String>>> getFormattedFlights() {
-        return flightsService.getFormattedFlights();
-    }
 }

@@ -38,7 +38,7 @@ public class BookingsService {
                     if(list.get(i).get("inbound") != null){
                         inboundFlightNumber = "flightNumber: " +  list.get(i).get("inbound").get("carrierCode") + list.get(i).get("outbound").get("flightNumber");
                         for(String key : list.get(i).get("inbound").keySet()){
-                            inbound += key.equals("price") || key.equals("carrierCode") || key.equals("flightNumber") ? "" : key + ": " + list.get(i).get("inbound").get(key) + "\n";
+                            inbound += key.equals("price") || key.equals("buy") || key.equals("carrierCode") || key.equals("flightNumber") ? "" : key + ": " + list.get(i).get("inbound").get(key) + "\n";
                         }
                         inbound += inboundFlightNumber;
                     }

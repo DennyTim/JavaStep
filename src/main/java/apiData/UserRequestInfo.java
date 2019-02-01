@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class UserRequestInfo {
@@ -18,11 +17,8 @@ public class UserRequestInfo {
     private String originCity;
     private String destinationCountry;
     private String destinationCity;
-    private ArrayList<Map<String, String>> originAirports;
-    private ArrayList<Map<String, String>> destinationAirports;
     private Map<String, String> chosenOriginAirport;
     private Map<String, String> chosenDestinationAirport;
-    private Map<String, String> countries = new HashMap<String, String>();
     private String outboundDate;
     private String inboundDate;
     private String cabinClass;
@@ -31,26 +27,18 @@ public class UserRequestInfo {
     private boolean requireCabinClass = false;
 
 
-    public UserRequestInfo(String originCountry, String originCity, String destinationCountry, String destinationCity, ArrayList<Map<String, String>> originAirports, ArrayList<Map<String, String>> destinationAirports, Map<String, String> chosenOriginAirport, Map<String, String> chosenDestinationAirport, Map<String, String> countries, String outboundDate, String inboundDate) {
+    public UserRequestInfo(String originCountry, String originCity, String destinationCountry, String destinationCity, Map<String, String> chosenOriginAirport, Map<String, String> chosenDestinationAirport, String outboundDate, String inboundDate) {
         this.originCountry = originCountry;
         this.originCity = originCity;
         this.destinationCountry = destinationCountry;
         this.destinationCity = destinationCity;
-        this.originAirports = originAirports;
-        this.destinationAirports = destinationAirports;
         this.chosenOriginAirport = chosenOriginAirport;
         this.chosenDestinationAirport = chosenDestinationAirport;
-        this.countries = countries;
         this.outboundDate = outboundDate;
         this.inboundDate = inboundDate;
     }
 
-    public UserRequestInfo() {
-    }
-
-    public String getCountryCode(String countryName) {
-        return countries.get(countryName);
-    }
+    public UserRequestInfo() {}
 
     public ArrayList<Map<String, String>> getCityInfo(String city, String country) {
 
@@ -96,9 +84,7 @@ public class UserRequestInfo {
                 }
             }
             return airports;
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (UnirestException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -125,10 +111,6 @@ public class UserRequestInfo {
 
     public void setTwoWayTrip(boolean twoWayTrip) {
         this.twoWayTrip = twoWayTrip;
-    }
-
-    public boolean isRequireCabinClass() {
-        return requireCabinClass;
     }
 
     public void setRequireCabinClass(boolean requireCabinClass) {
@@ -183,22 +165,6 @@ public class UserRequestInfo {
         this.destinationCity = destinationCity;
     }
 
-    public ArrayList<Map<String, String>> getOriginAirports() {
-        return originAirports;
-    }
-
-    public void setOriginAirports(ArrayList<Map<String, String>> originAirports) {
-        this.originAirports = originAirports;
-    }
-
-    public ArrayList<Map<String, String>> getDestinationAirports() {
-        return destinationAirports;
-    }
-
-    public void setDestinationAirports(ArrayList<Map<String, String>> destinationAirports) {
-        this.destinationAirports = destinationAirports;
-    }
-
     public Map<String, String> getChosenOriginAirport() {
         return chosenOriginAirport;
     }
@@ -213,14 +179,6 @@ public class UserRequestInfo {
 
     public void setChosenDestinationAirport(Map<String, String> chosenDestinationAirport) {
         this.chosenDestinationAirport = chosenDestinationAirport;
-    }
-
-    public Map<String, String> getCountries() {
-        return countries;
-    }
-
-    public void setCountries(Map<String, String> countries) {
-        this.countries = countries;
     }
 
     public String getOutboundDate() {

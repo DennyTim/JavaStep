@@ -7,31 +7,17 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import me.tongfei.progressbar.ProgressBar;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 public class FlightsResponseInfo {
-    private static Map<String, String> countries = new HashMap<String, String>();
     private String origin;
     private String destination;
     private String outboundDate;
     private String inboundDate = "";
     private int adultsNumber;
-    //economy, premiumeconomy, business, first
     private String cabinClass = "";
     private boolean twoWayTrip;
-    private boolean requireCabinClass;
     private String apiKey = "c401012205msh38febc44f4dbc18p159169jsn0206f678248f";
     public static ProgressBar pb = new ProgressBar("Loading avialable flights", 100);
 
-
-
-    static {
-        for (String iso : Locale.getISOCountries()) {
-            countries.put(new Locale("en", iso).getDisplayCountry(new Locale("en", iso)), iso);
-        }
-    }
 
     public FlightsResponseInfo(UserRequestInfo flightInfo) {
         this.origin = flightInfo.getChosenOriginAirport().get("PlaceId");
@@ -41,21 +27,14 @@ public class FlightsResponseInfo {
         this.adultsNumber = Integer.parseInt(flightInfo.getAdultsNumber());
         this.cabinClass = flightInfo.getCabinClass();
         this.twoWayTrip = flightInfo.isTwoWayTrip();
-        this.requireCabinClass = flightInfo.isRequireCabinClass();
     }
 
-    public FlightsResponseInfo() {
 
-    }
-
-    public String getCountryCode(String countryName) {
-        return countries.get(countryName);
-    }
 
     public String createSession() {
         try {
             HttpResponse<JsonNode> response = Unirest.post("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0")
-                    .header("X-RapidAPI-Key", "c401012205msh38febc44f4dbc18p159169jsn0206f678248f")
+                    .header("X-RapidAPI-Key", apiKey)
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .field("inboundDate", inboundDate)
                     .field("cabinClass", cabinClass)
@@ -106,9 +85,7 @@ public class FlightsResponseInfo {
             pb.stepTo(100);
             pb.stop();
 
-            JSONObject json = new JSONObject(responseData);
-
-            return json;
+            return new JSONObject(responseData);
 
         } catch (UnirestException e) {
             pb.stop();

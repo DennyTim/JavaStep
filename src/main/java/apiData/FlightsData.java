@@ -8,7 +8,7 @@ import java.util.*;
 
 public class FlightsData {
 
-    private ArrayList<Map<String, Map<String, String>>> flights = new ArrayList<Map<String, Map<String, String>>>();
+    private List<Map<String, Map<String, String>>> flights = new ArrayList<Map<String, Map<String, String>>>();
 
     public FlightsData obtainFlightData(JSONObject data, boolean requireInbound) {
 
@@ -90,12 +90,6 @@ public class FlightsData {
                     flight.put("buy", buyURL);
 
                     outboundInbound.put("outbound", flight);
-
-//                    flights.add(outboundInbound);
-
-
-
-
                 }
 
                 if (requireInbound && m.get("inboundID").equals(legs.getJSONObject(i).getString("Id"))) {
@@ -133,9 +127,10 @@ public class FlightsData {
                     flight.put("buy", buyURL);
 
                     outboundInbound.put("inbound", flight);
-//                    flights.add(outboundInbound);
 
                 }
+
+
             }
             flights.add(outboundInbound);
         }
@@ -147,7 +142,8 @@ public class FlightsData {
 
 
 
-    public ArrayList<Map<String, Map<String, String>>> getFlights() {
+    public List<Map<String, Map<String, String>>> getFlights() {
         return flights;
     }
 }
+

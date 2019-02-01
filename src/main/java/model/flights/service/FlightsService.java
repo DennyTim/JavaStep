@@ -4,13 +4,12 @@ import apiData.UserRequestInfo;
 import model.flights.dao.FlightsDaoImpl;
 import view.Validation;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class FlightsService {
     private FlightsDaoImpl data;
-    private ArrayList<Map<String, Map<String, String>>> flightInfo;
-    private ArrayList<Map<String, Map<String, String>>> formattedFlights;
+    private List<Map<String, Map<String, String>>> flightInfo;
 
 
     private FlightsService(FlightsDaoImpl data) {
@@ -22,15 +21,19 @@ public class FlightsService {
         return new FlightsService(db);
     }
 
-    public void printFlights() {
-        ArrayList<Map<String, Map<String, String>>> flights = data.getFlightsData();
 
+
+    public void printFlights() {
+
+        if (flightInfo == null) setFlightInfo();
+
+        System.out.println(flightInfo.size());
 
         int[] counter = {1};
         String[] price = {""};
         String[] buy = {""};
 
-        flights.forEach(e -> {
+        flightInfo.forEach(e -> {
 
 
             if (e.keySet().contains("outbound")) {
@@ -59,7 +62,9 @@ public class FlightsService {
                 }
 
 
-            } if (e.keySet().contains("inbound")) {
+            }
+
+            if (e.keySet().contains("inbound")) {
                 Map<String, String> inbound = e.get("inbound");
                 System.out.println();
                 System.out.println();
@@ -80,29 +85,19 @@ public class FlightsService {
 
         });
 
-        if (flights.size() == 0) throw new RuntimeException("Flights not found");
-
-        flightInfo = flights;
+        if (flightInfo.size() == 0) throw new RuntimeException("Flights not found");
     }
 
 
     public Map<String, Map<String, String>> flightToBook(int userInput) {
-        formattedFlights = new ArrayList<>();
 
-
-        for (int i = 0, counter = 0; i < flightInfo.size(); i++) {
-            if (flightInfo.get(i).containsKey("outbound")) {
-                formattedFlights.add(flightInfo.get(i));
-            } else if (flightInfo.get(i).containsKey("inbound")) {
-                formattedFlights.get(counter).put("inbound", flightInfo.get(i).get("inbound"));
-                counter ++;
-            }
-        }
-        return formattedFlights.get(Validation.validateFlightToBookInput(userInput, formattedFlights.size()));
+        if (flightInfo == null) setFlightInfo();
+        return flightInfo.get(Validation.validateFlightToBookInput(userInput, flightInfo.size()));
 
     }
 
-    public ArrayList<Map<String, Map<String, String>>> getFormattedFlights() {
-        return formattedFlights;
+
+    public void setFlightInfo() {
+        this.flightInfo = data.getFlightsData();
     }
 }

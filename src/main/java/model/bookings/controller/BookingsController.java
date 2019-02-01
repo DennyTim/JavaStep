@@ -2,7 +2,6 @@ package model.bookings.controller;
 
 import auth.UserData;
 import logging.Logger;
-import model.bookings.dao.BookingsDao;
 import model.bookings.service.BookingsService;
 
 import java.util.List;
