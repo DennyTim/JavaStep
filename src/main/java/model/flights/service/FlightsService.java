@@ -92,6 +92,8 @@ public class FlightsService {
 
     public Map<String, Map<String, String>> flightToBook(int userInput) {
 
+        if (flightInfo == null) setFlightInfo();
+
         return flightInfo.get(Validation.validateFlightToBookInput(userInput, flightInfo.size()));
 
     }
