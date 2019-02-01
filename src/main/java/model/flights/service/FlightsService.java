@@ -4,13 +4,12 @@ import apiData.UserRequestInfo;
 import model.flights.dao.FlightsDaoImpl;
 import view.Validation;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class FlightsService {
     private FlightsDaoImpl data;
-    private ArrayList<Map<String, Map<String, String>>> flightInfo;
-    private ArrayList<Map<String, Map<String, String>>> formattedFlights;
+    private List<Map<String, Map<String, String>>> flightInfo;
 
 
     private FlightsService(FlightsDaoImpl data) {
@@ -92,13 +91,11 @@ public class FlightsService {
 
     public Map<String, Map<String, String>> flightToBook(int userInput) {
 
+        if (flightInfo == null) setFlightInfo();
         return flightInfo.get(Validation.validateFlightToBookInput(userInput, flightInfo.size()));
 
     }
 
-    public ArrayList<Map<String, Map<String, String>>> getFormattedFlights() {
-        return formattedFlights;
-    }
 
     public void setFlightInfo() {
         this.flightInfo = data.getFlightsData();

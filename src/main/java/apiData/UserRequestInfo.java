@@ -38,8 +38,7 @@ public class UserRequestInfo {
         this.inboundDate = inboundDate;
     }
 
-    public UserRequestInfo() {
-    }
+    public UserRequestInfo() {}
 
     public ArrayList<Map<String, String>> getCityInfo(String city, String country) {
 

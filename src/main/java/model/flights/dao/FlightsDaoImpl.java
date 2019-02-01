@@ -5,12 +5,12 @@ import apiData.FlightsResponseInfo;
 import apiData.UserRequestInfo;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class FlightsDaoImpl implements FlightsDao {
 
-    private ArrayList<Map<String, Map<String, String>>> flightsData;
+    private List<Map<String, Map<String, String>>> flightsData;
     private boolean twoWayTrip;
 
     public FlightsDaoImpl requestApiData(UserRequestInfo userRequest) {
@@ -26,7 +26,7 @@ public class FlightsDaoImpl implements FlightsDao {
         flightsData = data.getFlights();
     }
 
-    public ArrayList<Map<String, Map<String, String>>> getFlightsData() {
+    public List<Map<String, Map<String, String>>> getFlightsData() {
         return flightsData;
     }
 

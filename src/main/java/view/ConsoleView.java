@@ -54,7 +54,7 @@ public class ConsoleView {
         backToMainMenu();
     }
 
-    public void flightsService() {
+    public boolean flightsService() {
 
         originCoutry();
         originCity();
@@ -88,10 +88,12 @@ public class ConsoleView {
             System.out.println();
             flightsService();
         } catch (NoFlightsBooked noFlightsBooked) {
-            Logger.error("ConsoleView: user didn't booked any flight by search");
+            Logger.error("ConsoleView: user didn't book any flight by search");
             userInputController();
+            return false;
         }
 
+        return true;
     }
 
     private static int returnInput() throws NoFlightsBooked {
@@ -309,8 +311,8 @@ public class ConsoleView {
                 printOnlineTableData();
                 break;
             case "2":
-                flightsService();
-                userInputController();
+                boolean checkMenuExit = flightsService();
+                if (checkMenuExit) userInputController();
                 break;
             case "3":
                 if (bookingsController.getAll().size() > 0) {

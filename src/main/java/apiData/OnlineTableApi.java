@@ -14,8 +14,7 @@ public class OnlineTableApi {
     private JSONObject tableJson;
     private ProgressBar pb;
 
-    public OnlineTableApi() {
-    }
+    public OnlineTableApi() {}
 
     public OnlineTableApi getData() {
 

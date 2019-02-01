@@ -2,6 +2,8 @@ package model.bookings.service;
 
 import auth.User;
 import auth.UserData;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,10 +15,11 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class BookingsServiceTest {
-    BookingsService bookingsService;
 
-    User test = new User("Test", "Test", 33);
-    UserData testUser = new UserData(test, "test", "test");
+    static User test = new User("Test", "Test", 33);
+    static UserData testUser = new UserData(test, "test", "test");
+    static BookingsService bookingsService = BookingsService.setBookingsData(testUser);
+
 
 
     HashMap<String, Map<String, String>> inbound = new HashMap<String, Map<String, String>>() {{
@@ -31,10 +34,7 @@ public class BookingsServiceTest {
         }});
     }};
 
-     @Before
-     public void init(){
-         bookingsService = bookingsService.setBookingsData(testUser);
-     }
+
 
     @Test
     public void getAll_Positive() {
@@ -80,7 +80,6 @@ public class BookingsServiceTest {
         assertTrue(bookingsService.getAll().size() == 2);
         assertEquals(bookingsService.get(0), inbound);
         assertEquals(bookingsService.get(1), outbound);
-
     }
 
 
@@ -95,7 +94,11 @@ public class BookingsServiceTest {
 //      then
         assertTrue(bookingsService.getAll().size() == 1);
         assertEquals(bookingsService.get(0), outbound);
+        bookingsService.delete(0);
     }
+
+
+
 
     @Test
     public void get() {
@@ -109,4 +112,12 @@ public class BookingsServiceTest {
         assertEquals(bookingsService.getAll().get(0),bookingsService.get(0));
 
     }
+
+    @AfterClass
+    public static void unset() {
+        bookingsService.delete(0);
+        bookingsService.delete(0);
+        bookingsService.delete(0);
+    }
+
 }
