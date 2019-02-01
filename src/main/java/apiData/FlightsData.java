@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.*;
 
 public class FlightsData {
+
     private ArrayList<Map<String, Map<String, String>>> flights = new ArrayList<Map<String, Map<String, String>>>();
 
     public FlightsData obtainFlightData(JSONObject data, boolean requireInbound) {
@@ -44,12 +45,15 @@ public class FlightsData {
 
 
         for (Map<String, String> m : variants) {
+
+            Map<String, Map<String, String>> outboundInbound = new HashMap<String, Map<String, String>>();
+
             for (int i = 0; i < legs.length(); i++) {
 
-                Map<String, Map<String, String>> outboundInbound = new HashMap<String, Map<String, String>>();
                 Map<String, String> flight;
 
                 if (m.get("outboundID").equals(legs.getJSONObject(i).getString("Id"))) {
+
 
                     flight = new HashMap<String, String>();
 
@@ -87,15 +91,17 @@ public class FlightsData {
 
                     outboundInbound.put("outbound", flight);
 
-                    flights.add(outboundInbound);
+//                    flights.add(outboundInbound);
 
 
 
 
-                } else if (requireInbound && m.get("inboundID").equals(legs.getJSONObject(i).getString("Id"))) {
+                }
+
+                if (requireInbound && m.get("inboundID").equals(legs.getJSONObject(i).getString("Id"))) {
                     flight = new HashMap<String, String>();
                     String price = m.get("price");
-                    String buyURL = m.get("DeeplinkUrl");
+                    String buyURL = m.get("buyUrl");
                     String carrier = "";
                     String carrierCode = "";
                     int numberOfStops = legs.getJSONObject(i).getJSONArray("Stops").length();
@@ -127,12 +133,11 @@ public class FlightsData {
                     flight.put("buy", buyURL);
 
                     outboundInbound.put("inbound", flight);
-                    flights.add(outboundInbound);
+//                    flights.add(outboundInbound);
 
                 }
-
-
             }
+            flights.add(outboundInbound);
         }
 
         return this;
@@ -146,4 +151,3 @@ public class FlightsData {
         return flights;
     }
 }
-
