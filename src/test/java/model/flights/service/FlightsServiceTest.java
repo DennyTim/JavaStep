@@ -1,7 +1,6 @@
 package model.flights.service;
 
 import apiData.UserRequestInfo;
-import model.flights.dao.FlightsDaoImpl;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;

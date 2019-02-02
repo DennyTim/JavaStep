@@ -71,12 +71,10 @@ public class FlightsResponseInfo {
     public JSONObject getResponceData() {
         pb = new ProgressBar("Loading avialable flights", 100);
         pb.start();
+        String sessionDemo = createSession();
         String session = createSession();
         pb.stepTo(25);
         try {
-            HttpResponse<JsonNode> demoData = Unirest.get(String.format("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/%s?pageIndex=0&pageSize=10", session))
-                    .header("X-RapidAPI-Key", "c401012205msh38febc44f4dbc18p159169jsn0206f678248f")
-                    .asJson();
             pb.stepTo(50);
             HttpResponse<JsonNode> responseData = Unirest.get(String.format("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/%s?pageIndex=0&pageSize=10", session))
                     .header("X-RapidAPI-Key", "c401012205msh38febc44f4dbc18p159169jsn0206f678248f")
