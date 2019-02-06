@@ -54,6 +54,7 @@ public class UserRequestInfo {
 
     public ArrayList<Map<String, String>> getCityInfo(String city, String country) {
 
+
         ArrayList<Map<String, String>> airports = new ArrayList<Map<String, String>>();
 
         try {
