@@ -6,30 +6,34 @@ import logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
-import view.Validation;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserAuth {
+public class UserAuthService {
 
     private static final String PATH = "src/data/users.json";
     private static final File USERS = new File(PATH);
-    private final static File dir = new File("src/data");
+    private static final File dir = new File("src/data");
     private static final JSONParser parser = new JSONParser();
     private static final Gson gson = new Gson();
     private static final Scanner in = new Scanner(System.in);
     private static List<UserData> userDataList;
     private static FileReader reader;
     private static JSONObject jsonObject;
+    private static final String validAge = "([1-9]){1}[0-9]{1,2}";
+    private static final String validNameSurname = "^[a-zA-Z]+";
+    private static final String validLogin = "[a-zA-Z0-9]{3,}";
+    private static final String validPassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
 
     static {
         update();
     }
 
-    private UserAuth(){}
+    private UserAuthService() {
+    }
 
     public static UserData returnActualUser() {
         UserData actualUser = null;
@@ -44,6 +48,8 @@ public class UserAuth {
                 if (actualUser == null) continue;
                 appendUser(actualUser);
 
+            } else if (ans.equals("3")) {
+                return null;
             } else {
                 System.out.println("Incorrect input. Enter 1 or 2");
                 continue;
@@ -60,7 +66,7 @@ public class UserAuth {
 
         System.out.println("Enter your name");
         String name = in.nextLine();
-        while (!Validation.checkNameSurname(name)) {
+        while (!checkNameSurname(name)) {
             System.out.println("Incorrect name. Enter once more");
             name = in.nextLine();
         }
@@ -68,7 +74,7 @@ public class UserAuth {
         System.out.println("Enter your surname");
         String surname = in.nextLine();
 
-        while (!Validation.checkNameSurname(surname)) {
+        while (!checkNameSurname(surname)) {
             System.out.println("Incorrect surname. Enter once more");
             surname = in.nextLine();
         }
@@ -76,7 +82,7 @@ public class UserAuth {
         System.out.println("Enter your age");
         String ageStr = in.nextLine();
 
-        while (!Validation.checkAge(ageStr)) {
+        while (!checkAge(ageStr)) {
             System.out.println("Incorrect age.Enter once more");
             ageStr = in.nextLine();
         }
@@ -88,7 +94,7 @@ public class UserAuth {
         String login = in.nextLine();
         if (isBackToMenu(login)) return actualUser;
 
-        while (!Validation.isValidLogin(login)){
+        while (!isValidLogin(login)) {
             if (isBackToMenu(login)) return actualUser;
             System.out.println("Login must be at list 3 characters, contain word and number characters only. Try again");
             login = in.nextLine();
@@ -105,7 +111,7 @@ public class UserAuth {
         String password = in.nextLine();
         if (isBackToMenu(password)) return actualUser;
 
-        while (!Validation.isValidPassword(password)){
+        while (!isValidPassword(password)) {
             System.out.println("Password must be at list 6 characters, contain word and number characters, symbols: '-', '.', '@', '$', '%' only. Try again");
             password = in.nextLine();
         }
@@ -215,7 +221,7 @@ public class UserAuth {
         boolean flag = true;
         try {
 
-            if(!dir.exists()){
+            if (!dir.exists()) {
                 dir.mkdirs();
             }
 
@@ -234,7 +240,22 @@ public class UserAuth {
         } finally {
             return flag;
         }
+    }
 
+    private static boolean isValidPassword(String login) {
+        return login.matches(validPassword);
+    }
+
+    private static boolean isValidLogin(String login) {
+        return login.matches(validLogin);
+    }
+
+    private static boolean checkAge(String age) {
+        return age.matches(validAge);
+    }
+
+    private static boolean checkNameSurname(String input) {
+        return input.matches(validNameSurname);
     }
 
     private static UserData generateAdmin() {
@@ -244,8 +265,7 @@ public class UserAuth {
     }
 
     private static void generateCommands() {
-        System.out.println("1.Sign in\n" +
-                "2.Sign up");
+        System.out.println("1.Sign in\n2.Sign up\n3.Guest");
     }
 
 }
