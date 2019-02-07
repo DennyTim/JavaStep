@@ -1,7 +1,7 @@
 package exceptions;
 
-public class AirportsNotFoundException extends Exception {
-    public AirportsNotFoundException(String message) {
-        super(message);
+public class AirportsNotFoundException extends RuntimeException {
+    public AirportsNotFoundException() {
+        super("No airports found");
     }
 }
