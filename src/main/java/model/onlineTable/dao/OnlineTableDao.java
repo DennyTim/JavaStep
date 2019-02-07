@@ -3,10 +3,11 @@ package model.onlineTable.dao;
 import apiServices.OnlineTableApiService;
 import contracts.DAO;
 import model.dto.AirportTable;
+import model.dto.FlightOffer;
 
 import java.util.List;
 
-public class OnlineTableDao implements DAO {
+public class OnlineTableDao implements DAO<AirportTable> {
 
     private String airportCode;
     private String departureOrArrival;
@@ -29,7 +30,7 @@ public class OnlineTableDao implements DAO {
     }
 
     @Override
-    public void add(Object element) {
+    public void add(AirportTable element) {
         throw new IllegalStateException("Implementation doesn't imply add() method");
     }
 

@@ -14,24 +14,6 @@ public class UserInput {
     private String validLogin = "[a-zA-Z0-9]{3,}";
     private String validPassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
 
-
-
-//    private String validatePassword(String login){
-//
-//    }
-//
-//    private String validateLogin(String login){
-//        return login.matches(validLogin);
-//    }
-//
-//    private String validateAge(String age){
-//        return age.matches(validAge);
-//    }
-//
-//    private String validateNameSurname(String input){
-//        return input.matches(validNameSurname);
-//    }
-
     public String getCountry(String type) {
         System.out.printf("\nEnter %s country:", type);
         String country = read.nextLine();
