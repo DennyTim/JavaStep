@@ -3,7 +3,6 @@ package model.flights.controller;
 
 import model.dto.Airport;
 import model.dto.FlightOffer;
-import model.flights.dao.FlightsDaoImpl;
 import model.flights.service.FlightsService;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public class FlightsController {
     private FlightsService fs = new FlightsService();
 
     public void printAvialableFlights() {
-        fs.printAvialableFlights();
+        fs.printAvailableFlights();
     }
 
     public FlightOffer getFlight(int index) {

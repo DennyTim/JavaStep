@@ -14,7 +14,6 @@ public class UserInput {
     private String validLogin = "[a-zA-Z0-9]{3,}";
     private String validPassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
 
-
     public String getCountry(String type) {
         System.out.printf("\nEnter %s country:", type);
         String country = read.nextLine();
