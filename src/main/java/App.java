@@ -1,7 +1,5 @@
 import model.dto.Airport;
 import model.flights.controller.FlightsController;
-import model.onlineTable.controller.OnlineTableController;
-import view.ConsoleView;
 
 import java.util.List;
 

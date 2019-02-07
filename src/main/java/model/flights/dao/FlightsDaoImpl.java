@@ -8,7 +8,7 @@ import model.dto.FlightOffer;
 
 import java.util.List;
 
-public class FlightsDaoImpl implements DAO {
+public class FlightsDaoImpl implements DAO<FlightOffer> {
 
     private UserRequest userRequest;
     private List<FlightOffer> flightOffers;
@@ -29,7 +29,7 @@ public class FlightsDaoImpl implements DAO {
     }
 
     @Override
-    public void add(Object element) {
+    public void add(FlightOffer element) {
         throw new IllegalStateException("Implementation doesn't imply add() method");
     }
 
