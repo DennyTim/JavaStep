@@ -1,17 +1,17 @@
 package auth;
 
+import model.dto.FlightOffer;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class UserData{
 
     private User user;
     private String login;
     private String password;
-    private List<Map<String, Map<String,String>>> bookedFlights = new ArrayList<>();
+    private List<FlightOffer> bookedFlights = new ArrayList<>();
 
     public UserData(User user, String login, String password) {
         this.user = user;
@@ -30,11 +30,11 @@ public class UserData{
     }
 
 
-    public List<Map<String, Map<String, String>>> getBookedFlights() {
+    public List<FlightOffer> getBookedFlights() {
         return bookedFlights;
     }
 
-    public void setBookedFlights(List<Map<String, Map<String, String>>> bookedFlights) {
+    public void setBookedFlights(List<FlightOffer> bookedFlights) {
         this.bookedFlights = bookedFlights;
     }
 

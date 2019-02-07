@@ -27,7 +27,7 @@ public class FlightsService {
 
 
 
-    public void printAvialableFlights() {
+    public void printAvailableFlights() {
 
         int[] counter = {1};
         String[] price = {""};
