@@ -9,25 +9,22 @@ import java.util.Scanner;
 public class UserInput {
 
     private Scanner read = new Scanner(System.in);
-    private String validAge = "([1-9]){1}[0-9]{1,2}";
-    private String validNameSurname = "^[a-zA-Z]+";
-    private String validLogin = "[a-zA-Z0-9]{3,}";
-    private String validPassword = "[a-zA-Z0-9?(-.@$%)]{6,}";
+
 
     public String getCountry(String type) {
-        System.out.printf("\nEnter %s country:", type);
+        System.out.printf("\nEnter %s country:\n", type);
         String country = read.nextLine();
         return validateCountry(country);
     }
 
     public String getCity(String type) {
-        System.out.printf("\nEnter %s city:", type);
+        System.out.printf("\nEnter %s city:\n", type);
         String city = read.nextLine();
         return validateCity(city);
     }
 
     public String getDate(String type) {
-        System.out.printf("\nEnter %s date:", type);
+        System.out.printf("\nEnter %s date:\n", type);
         String date = read.nextLine();
         return validateDate(date);
     }
@@ -51,7 +48,7 @@ public class UserInput {
     }
 
     public int getFlightToBookIndex(int listSize) {
-        System.out.println("Enter index of flight to book:");
+        System.out.println("\nEnter index of flight to book:");
         String input = read.nextLine();
         return validateFlightToBookInput(input, listSize);
     }
@@ -74,10 +71,10 @@ public class UserInput {
         return validateCabinClass(cabinClass);
     }
 
-    public String getMenuItemIndex() {
-        System.out.println("Choose menu item by index:");
+    public String getMenuItemIndex(boolean user) {
+        System.out.println("\nChoose menu item by index:");
         String itemIndex = read.nextLine();
-        return validateMenuItemInput(itemIndex);
+        return validateMenuItemInput(itemIndex, user);
     }
 
 
@@ -191,8 +188,9 @@ public class UserInput {
         return validateCabinClass(newInput);
     }
 
-    private String validateMenuItemInput(String input) {
-        while (!input.matches("[1-6]")) {
+    private String validateMenuItemInput(String input, boolean user) {
+        String regexChecker = user ? "[1-6]" : "[1-3]";
+        while (!input.matches(regexChecker)) {
             System.out.println("Wrong menu index, try again:");
             input = read.nextLine();
         }

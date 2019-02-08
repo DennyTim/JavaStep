@@ -7,6 +7,8 @@ import model.bookings.dao.BookingsDaoImpl;
 import model.dto.Airport;
 import model.dto.FlightOffer;
 import model.flights.controller.FlightsController;
+import model.onlineTable.controller.OnlineTableController;
+import view.ConsoleView;
 
 import java.util.List;
 
@@ -53,7 +55,12 @@ public class App {
 //
 //        bc.displayBookedFlights();
 
-        UserData actualUser = UserAuthService.returnActualUser();
+//        UserData actualUser = UserAuthService.returnActualUser();
+
+
+        ConsoleView cv = new ConsoleView();
+
+        cv.startApp();
 
     }
 }
