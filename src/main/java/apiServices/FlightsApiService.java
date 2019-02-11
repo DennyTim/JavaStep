@@ -4,12 +4,12 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import exceptions.AirportsNotFoundException;
 import exceptions.FlightsNotFoundException;
 import me.tongfei.progressbar.ProgressBar;
 import model.UserRequest;
 import model.dto.FlightOffer;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class FlightsApiService {
                 System.out.println(e1.getMessage());
             }
 
-            throw new AirportsNotFoundException();
+            throw new FlightsNotFoundException();
         }
 
     }
@@ -105,7 +105,8 @@ public class FlightsApiService {
 
             return key.substring(keyIndex, keyStringLength - 2);
 
-        } catch (UnirestException e) {
+        } catch (UnirestException |JSONException e) {
+            pb.stop();
             throw new FlightsNotFoundException();
         }
 

@@ -27,6 +27,10 @@ public class FlightsController {
         return fs.getAirportsByCityAndCountry(city, country);
     }
 
+    public void printAirports(List<Airport> airports, boolean flightSearch) {
+        fs.printAirports(airports, flightSearch);
+    }
+
     public void setOriginAirportCode(String code) {
         fs.setOriginAirportCode(code);
     }

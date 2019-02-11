@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +22,7 @@ public class FlightsService {
 
     private FlightsDaoImpl dao;
     private UserRequest userRequest = new UserRequest();
+    private ProgressBar pb;
 
 
 
@@ -90,7 +90,7 @@ public class FlightsService {
 
         try {
 
-            ProgressBar pb = new ProgressBar("Loading city airports", 100);
+            pb = new ProgressBar("Loading city airports", 100);
             pb.start();
 
 
@@ -128,24 +128,28 @@ public class FlightsService {
                 }
             }
             if (airports.size() < 1) throw new AirportsNotFoundException();
-            printAirports(airports);
             return airports;
         } catch (UnirestException | InterruptedException e) {
+            pb.stop();
             throw new AirportsNotFoundException();
         }
 
     }
 
-    private void printAirports(List<Airport> airports) {
+    public void printAirports(List<Airport> airports, boolean flightSearch) {
         for (int i = 0; i < airports.size(); i++) {
-            if (airports.size() == 1) {
-                System.out.printf("\n%d. %s", i + 1, airports.get(i).getPlaceName());
-            } else {
-                if (i == 0) {
-                    System.out.print("\n1. Any airport");
-                } else {
+            if (flightSearch) {
+                if (airports.size() == 1) {
                     System.out.printf("\n%d. %s", i + 1, airports.get(i).getPlaceName());
+                } else {
+                    if (i == 0) {
+                        System.out.print("\n1. Any airport");
+                    } else {
+                        System.out.printf("\n%d. %s", i + 1, airports.get(i).getPlaceName());
+                    }
                 }
+            } else {
+                System.out.printf("\n%d. %s", i + 1, airports.get(i).getPlaceName());
             }
         }
     }

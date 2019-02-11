@@ -10,6 +10,16 @@ public class UserInput {
 
     private Scanner read = new Scanner(System.in);
 
+    public String get0() {
+        System.out.println("\nTo show main menu enter 0");
+        String input = read.nextLine();
+        while (!input.equals("0")) {
+            System.out.println("You have to enter 0 to get back to main menu. Try again:");
+            input = read.nextLine();
+        }
+
+        return input;
+    }
 
     public String getCountry(String type) {
         System.out.printf("\nEnter %s country:\n", type);
@@ -30,43 +40,43 @@ public class UserInput {
     }
 
     public String getAdultsNumber() {
-        System.out.println("Enter a number of adult passengers:");
+        System.out.println("\nEnter a number of adult passengers:");
         String adultsNumber = read.nextLine();
         return validateAdultsNumber(adultsNumber);
     }
 
-    public String getBookedFlightIndex(int listSize) {
-        System.out.println("Enter index of flight to cancel booking:");
+    public int getBookedFlightIndex(int listSize) {
+        System.out.println("\nEnter index of flight to cancel booking or type 0 to get back to main menu:");
         String index = read.nextLine();
         return validateBookedFlightIndex(index, listSize);
     }
 
     public String getYesOrNo(String message) {
-        System.out.println(message);
+        System.out.println("\n" + message);
         String input = read.nextLine();
         return validateYesNoInput(input);
     }
 
     public int getFlightToBookIndex(int listSize) {
-        System.out.println("\nEnter index of flight to book:");
+        System.out.println("\nEnter index of flight to book or type 0 to get back to main menu:");
         String input = read.nextLine();
         return validateFlightToBookInput(input, listSize);
     }
 
     public int getAirportIndex(int listSize) {
-        System.out.println("Enter airport index:");
+        System.out.println("\n\nEnter airport index:");
         String input = read.nextLine();
         return validateAirportIndex(input, listSize);
     }
 
     public String getDepartureOrArrival() {
-        System.out.println("Choose departure(d) or arrival(a):");
+        System.out.println("\nChoose departure(d) or arrival(a):");
         String input = read.nextLine();
         return validateDepartureOrArrivalInput(input);
     }
 
     public String getCabinClass() {
-        System.out.println("Choose cabin class(economy, premiumeconomy, business, first)");
+        System.out.println("\nChoose cabin class(economy, premiumeconomy, business, first)");
         String cabinClass = read.nextLine();
         return validateCabinClass(cabinClass);
     }
@@ -78,7 +88,7 @@ public class UserInput {
     }
 
 
-    private String validateCountry(String country) {
+    public String validateCountry(String country) {
 
         String countryFinal = country.length() > 1 ? country.substring(0, 1).toUpperCase() + country.substring(1) : "";
 
@@ -102,7 +112,7 @@ public class UserInput {
     }
 
 
-    private String validateCity(String city) {
+    public String validateCity(String city) {
         boolean check = city.matches("^[A-Za-z]+$");
 
         if (!check) {
@@ -117,7 +127,7 @@ public class UserInput {
     }
 
 
-    private String validateDate(String date) {
+    public String validateDate(String date) {
         if (date.matches("^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$")) {
             return date;
         } else {
@@ -126,7 +136,7 @@ public class UserInput {
         }
     }
 
-    private String validateAdultsNumber(String adultsNumber) {
+    public String validateAdultsNumber(String adultsNumber) {
         if (adultsNumber.matches("^[1-9]$|^0[1-9]$|^1[0-9]$|^20$")) {
             return adultsNumber;
         } else {
@@ -136,17 +146,18 @@ public class UserInput {
         }
     }
 
-    private String validateBookedFlightIndex(String index, int size) {
+    public int validateBookedFlightIndex(String index, int size) {
         if (index.matches("\\d+") && Integer.parseInt(index) <= size && Integer.parseInt(index) > 0) {
-            return index;
+            return Integer.parseInt(index) - 1;
         } else {
+            if (index.equals("0")) return 0;
             System.out.println("Please, choose correct index:");
             String input = read.nextLine();
             return validateBookedFlightIndex(input, size);
         }
     }
 
-    private String validateYesNoInput(String input) {
+    public String validateYesNoInput(String input) {
         if (input.equals("yes") || input.equals("no")) {
             return input;
         } else {
@@ -157,29 +168,31 @@ public class UserInput {
     }
 
 
-    private int validateFlightToBookInput(String userInput, int listSize) {
-        if (userInput.matches("\\d+") && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) < listSize) return Integer.parseInt(userInput) - 1;
+    public int validateFlightToBookInput(String userInput, int listSize) {
+        if (userInput.matches("\\d+") && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= listSize) return Integer.parseInt(userInput) - 1;
+        if (userInput.equals("0")) return 0;
         System.out.println("Input must be a valid flight index, try again:");
         String newInput = read.nextLine();
         return validateFlightToBookInput(newInput, listSize);
     }
 
 
-    private int validateAirportIndex(String input, int listSize) {
+    public int validateAirportIndex(String input, int listSize) {
         if (input.matches("\\d+") && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= listSize) return Integer.parseInt(input) - 1;
         System.out.println("Input must be valid airport index, try again:");
         String newInput = read.nextLine();
         return validateAirportIndex(newInput, listSize);
     }
 
-    private String validateDepartureOrArrivalInput(String userInput) {
-        if (userInput.equals("d") || userInput.equals("a")) return userInput;
+    public String validateDepartureOrArrivalInput(String userInput) {
+        if (userInput.equals("d")) return "departures";
+        if (userInput.equals("a")) return "arrivals";
         System.out.println("You have to enter d (departure) or a (arrival), try again:");
         String newInput = read.nextLine();
         return validateDepartureOrArrivalInput(newInput);
     }
 
-    private String validateCabinClass(String userInput) {
+    public String validateCabinClass(String userInput) {
         if (userInput.equals("economy") || userInput.equals("premiumeconomy") || userInput.equals("business") || userInput.equals("first")) {
             return userInput;
         }
@@ -188,7 +201,7 @@ public class UserInput {
         return validateCabinClass(newInput);
     }
 
-    private String validateMenuItemInput(String input, boolean user) {
+    public String validateMenuItemInput(String input, boolean user) {
         String regexChecker = user ? "[1-6]" : "[1-3]";
         while (!input.matches(regexChecker)) {
             System.out.println("Wrong menu index, try again:");

@@ -7,6 +7,7 @@ import exceptions.AirportsNotFoundException;
 import me.tongfei.progressbar.ProgressBar;
 import model.dto.AirportTable;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -53,7 +54,21 @@ public class OnlineTableApiService {
 
     private List<AirportTable> jsonToDto(JSONObject airportData) {
         List<AirportTable> result = new ArrayList<>();
-        JSONArray tableArray = airportData.getJSONObject("body").getJSONArray("array").getJSONObject(0).getJSONArray("fidsData");
+
+        JSONArray tableArray;
+
+        try {
+            tableArray = airportData.getJSONObject("body").getJSONArray("array").getJSONObject(0).getJSONArray("fidsData");
+        } catch (JSONException e) {
+            pb.stepTo(100);
+            pb.stop();
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e1) {
+                System.out.println(e1.getMessage());
+            }
+            throw new AirportsNotFoundException();
+        }
 
         if (tableArray.length() < 1) throw new AirportsNotFoundException();
 

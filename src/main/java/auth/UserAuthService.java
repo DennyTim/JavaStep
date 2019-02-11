@@ -51,7 +51,7 @@ public class UserAuthService {
             } else if (ans.equals("3")) {
                 return null;
             } else {
-                System.out.println("Incorrect input. Enter 1 or 2");
+                System.out.println("Incorrect input. Enter 1, 2 or 3");
                 continue;
             }
             break;
