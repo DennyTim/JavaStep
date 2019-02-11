@@ -3,7 +3,6 @@ package model.onlineTable.dao;
 import apiServices.OnlineTableApiService;
 import contracts.DAO;
 import model.dto.AirportTable;
-import model.dto.FlightOffer;
 
 import java.util.List;
 

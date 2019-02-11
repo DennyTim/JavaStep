@@ -1,6 +1,7 @@
 package model.dto;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class FlightOffer {
     private Map<String, String> outboundFlight;
@@ -28,5 +29,19 @@ public class FlightOffer {
                 "outboundFlight=" + outboundFlight +
                 ", inboundFlight=" + inboundFlight +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FlightOffer that = (FlightOffer) o;
+        return Objects.equals(outboundFlight, that.outboundFlight) &&
+                Objects.equals(inboundFlight, that.inboundFlight);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(outboundFlight, inboundFlight);
     }
 }

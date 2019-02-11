@@ -1,5 +1,6 @@
 package model.onlineTable.controller;
 
+import logging.Logger;
 import model.onlineTable.service.OnlineTableService;
 
 public class OnlineTableController {
@@ -12,6 +13,7 @@ public class OnlineTableController {
 
     public void printAirportTable() {
         service.printAirportTable();
+        Logger.info("OnlineTable: Printed airport table");
     }
 
 }

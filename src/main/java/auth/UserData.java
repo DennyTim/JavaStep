@@ -46,12 +46,4 @@ public class UserData{
         return password;
     }
 
-    @Override
-    public String toString() {
-        return "UserControl{" +
-                "user=" + user +
-                ", login= " + login +
-                ", password= " + password +
-                "}";
-    }
 }

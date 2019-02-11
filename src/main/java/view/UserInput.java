@@ -150,7 +150,7 @@ public class UserInput {
         if (index.matches("\\d+") && Integer.parseInt(index) <= size && Integer.parseInt(index) > 0) {
             return Integer.parseInt(index) - 1;
         } else {
-            if (index.equals("0")) return 0;
+            if (index.equals("0")) return -1;
             System.out.println("Please, choose correct index:");
             String input = read.nextLine();
             return validateBookedFlightIndex(input, size);
@@ -170,7 +170,7 @@ public class UserInput {
 
     public int validateFlightToBookInput(String userInput, int listSize) {
         if (userInput.matches("\\d+") && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= listSize) return Integer.parseInt(userInput) - 1;
-        if (userInput.equals("0")) return 0;
+        if (userInput.equals("0")) return -1;
         System.out.println("Input must be a valid flight index, try again:");
         String newInput = read.nextLine();
         return validateFlightToBookInput(newInput, listSize);

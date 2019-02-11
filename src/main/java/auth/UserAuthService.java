@@ -43,12 +43,14 @@ public class UserAuthService {
             if (ans.equals("1")) {
                 actualUser = signInActions();
                 if (actualUser == null) continue;
+                Logger.info("User signed in");
             } else if (ans.equals("2")) {
                 actualUser = signUpActions();
                 if (actualUser == null) continue;
                 appendUser(actualUser);
-
+                Logger.info("User signed up");
             } else if (ans.equals("3")) {
+                Logger.info("Signed in as guest");
                 return null;
             } else {
                 System.out.println("Incorrect input. Enter 1, 2 or 3");

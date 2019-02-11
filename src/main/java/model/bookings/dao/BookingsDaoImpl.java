@@ -54,18 +54,18 @@ public class BookingsDaoImpl implements DAO<FlightOffer> {
     @Override
     public void add(FlightOffer element) {
         bookedFlights.add(element);
-        save();
+        updateFileData();
     }
 
 
     @Override
     public void remove(int index) {
         bookedFlights.remove(index);
-        save();
+        updateFileData();
     }
 
 
-    private void save() {
+    private void updateFileData() {
         try {
             FileReader reader = new FileReader(PATH);
             JSONObject jsonObject = (JSONObject) parser.parse(reader);

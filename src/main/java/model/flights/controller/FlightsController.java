@@ -1,6 +1,7 @@
 package model.flights.controller;
 
 
+import logging.Logger;
 import model.dto.Airport;
 import model.dto.FlightOffer;
 import model.flights.service.FlightsService;
@@ -13,21 +14,20 @@ public class FlightsController {
 
     public void printAvialableFlights() {
         fs.printAvailableFlights();
+        Logger.info("Flights: FlightOffers printed");
     }
 
-    public FlightOffer getFlight(int index) {
-        return fs.getFlight(index);
-    }
-
-    public List<FlightOffer> getAvialableFlights() {
+    public List<FlightOffer> getAvailableFlights() {
         return fs.getAvailableFlights();
     }
 
     public List<Airport> getAirportByCityAndCountry(String city, String country) {
+        Logger.info("Flights: Got airports by city and country");
         return fs.getAirportsByCityAndCountry(city, country);
     }
 
     public void printAirports(List<Airport> airports, boolean flightSearch) {
+        Logger.info("Flights: Print airports by city and country");
         fs.printAirports(airports, flightSearch);
     }
 

@@ -6,7 +6,6 @@ import model.bookings.service.BookingsService;
 import model.dto.FlightOffer;
 
 import java.util.List;
-import java.util.Map;
 
 public class BookingsController {
     private BookingsService bookingsService;

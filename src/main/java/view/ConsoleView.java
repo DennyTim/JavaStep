@@ -5,6 +5,7 @@ import auth.UserAuthService;
 import auth.UserData;
 import exceptions.AirportsNotFoundException;
 import exceptions.FlightsNotFoundException;
+import logging.Logger;
 import model.bookings.controller.BookingsController;
 import model.dto.Airport;
 import model.flights.controller.FlightsController;
@@ -74,8 +75,9 @@ public class ConsoleView {
         fc.setDao();
         fc.printAvialableFlights();
         if (isUser) {
-            int flightToBookIndex = ui.getFlightToBookIndex(fc.getAvialableFlights().size());
-            if (flightToBookIndex != 0) bc.add(fc.getAvialableFlights().get(flightToBookIndex));
+            int flightToBookIndex = ui.getFlightToBookIndex(fc.getAvailableFlights().size());
+            if (flightToBookIndex != -1) bc.add(fc.getAvailableFlights().get(flightToBookIndex));
+            Logger.info("ConsoleView: FlightOffer booked");
         }
     }
 
@@ -108,7 +110,7 @@ public class ConsoleView {
                 case "3":
                     bc.displayBookedFlights();
                     int indexOfBookedFlightToCancel = ui.getBookedFlightIndex(bc.getAll().size());
-                    if (indexOfBookedFlightToCancel != 0) bc.delete(indexOfBookedFlightToCancel);
+                    if (indexOfBookedFlightToCancel != -1) bc.delete(indexOfBookedFlightToCancel);
                     backToMainMenu(true);
                     break;
                 case "4":
@@ -169,9 +171,11 @@ public class ConsoleView {
         } catch (AirportsNotFoundException e) {
             System.out.println("No airports found.");
             backToMainMenu(false);
+            Logger.error(e.getMessage());
         } catch (FlightsNotFoundException e) {
             System.out.println("No flights found.");
             backToMainMenu(false);
+            Logger.error(e.getMessage());
         }
 
     }

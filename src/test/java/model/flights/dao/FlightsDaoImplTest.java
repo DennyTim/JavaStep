@@ -1,6 +1,5 @@
 package model.flights.dao;
 
-import apiServices.FlightsApiService;
 import exceptions.FlightsNotFoundException;
 import model.UserRequest;
 import model.dto.FlightOffer;
