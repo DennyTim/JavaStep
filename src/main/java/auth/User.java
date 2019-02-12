@@ -23,13 +23,4 @@ public class User{
         return jsonUser;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name=" + name +
-                ", surname=" + surname +
-                ", age=" + age +
-                "}";
-    }
-
 }

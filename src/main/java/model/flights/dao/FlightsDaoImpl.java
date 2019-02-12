@@ -1,37 +1,40 @@
 package model.flights.dao;
 
-import apiData.FlightsData;
-import apiData.FlightsResponseInfo;
-import apiData.UserRequestInfo;
-import org.json.JSONObject;
+
+import apiServices.FlightsApiService;
+import contracts.DAO;
+import model.UserRequest;
+import model.dto.FlightOffer;
 
 import java.util.List;
-import java.util.Map;
 
-public class FlightsDaoImpl implements FlightsDao {
+public class FlightsDaoImpl implements DAO<FlightOffer> {
 
-    private List<Map<String, Map<String, String>>> flightsData;
-    private boolean twoWayTrip;
+    private UserRequest userRequest;
+    private List<FlightOffer> flightOffers;
 
-    public FlightsDaoImpl requestApiData(UserRequestInfo userRequest) {
-        FlightsResponseInfo apiRequest = new FlightsResponseInfo(userRequest);
-        JSONObject response = apiRequest.getResponceData();
-        twoWayTrip = apiRequest.isTwoWayTrip();
-        FlightsData flightsContainer = new FlightsData().obtainFlightData(response, twoWayTrip);
-        flightsData = flightsContainer.getFlights();
-        return this;
+    public FlightsDaoImpl(UserRequest userRequest) {
+        this.userRequest = userRequest;
     }
 
-    public void setFlightsData(FlightsData data) {
-        flightsData = data.getFlights();
+    @Override
+    public List<FlightOffer> getAll() {
+        if (flightOffers == null) flightOffers = new FlightsApiService(userRequest).getData();
+        return flightOffers;
     }
 
-    public List<Map<String, Map<String, String>>> getFlightsData() {
-        return flightsData;
+    @Override
+    public FlightOffer get(int index) {
+        return getAll().get(index);
     }
 
-    public boolean isTwoWayTrip() {
-        return twoWayTrip;
+    @Override
+    public void add(FlightOffer element) {
+        throw new IllegalStateException("Implementation doesn't imply add() method");
     }
 
+    @Override
+    public void remove(int index) {
+        throw new IllegalStateException("Implementation doesn't imply remove() method");
+    }
 }

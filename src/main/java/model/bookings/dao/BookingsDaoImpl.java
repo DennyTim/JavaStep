@@ -1,7 +1,10 @@
 package model.bookings.dao;
 
+
 import auth.UserData;
 import com.google.gson.Gson;
+import contracts.DAO;
+import model.dto.FlightOffer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,17 +14,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-public class BookingsDaoImpl implements BookingsDao{
-    private UserData actualUser;
-    private List<Map<String, Map<String, String>>> bookedFlights;
+public class BookingsDaoImpl implements DAO<FlightOffer> {
+
+    private List<FlightOffer> bookedFlights;
     private static final String PATH = "src/data/users.json";
     private static final JSONParser parser = new JSONParser();
     private static final Gson gson = new Gson();
+    private UserData actualUser;
     private static BookingsDaoImpl dao;
 
-    private BookingsDaoImpl() {}
+    private BookingsDaoImpl(){}
 
     public static BookingsDaoImpl instance() {
         if (dao == null) {
@@ -37,30 +40,32 @@ public class BookingsDaoImpl implements BookingsDao{
         return this;
     }
 
-    @Override
-    public void delete(int index) {
-        bookedFlights.remove(index);
-        save();
-    }
 
     @Override
-    public void add(Map<String, Map<String, String>> flight) {
-        bookedFlights.add(flight);
-        save();
-    }
-
-    @Override
-    public List<Map<String, Map<String, String>>> getAll() {
+    public List<FlightOffer> getAll() {
         return bookedFlights;
     }
 
     @Override
-    public Map<String, Map<String, String>> get(int index) {
+    public FlightOffer get(int index) {
         return bookedFlights.get(index);
     }
 
     @Override
-    public void save() {
+    public void add(FlightOffer element) {
+        bookedFlights.add(element);
+        updateFileData();
+    }
+
+
+    @Override
+    public void remove(int index) {
+        bookedFlights.remove(index);
+        updateFileData();
+    }
+
+
+    private void updateFileData() {
         try {
             FileReader reader = new FileReader(PATH);
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -89,4 +94,6 @@ public class BookingsDaoImpl implements BookingsDao{
             e.printStackTrace();
         }
     }
+
+
 }

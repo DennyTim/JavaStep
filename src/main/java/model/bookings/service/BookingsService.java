@@ -1,15 +1,15 @@
 package model.bookings.service;
 
 import auth.UserData;
-import model.bookings.dao.BookingsDao;
+import contracts.DAO;
 import model.bookings.dao.BookingsDaoImpl;
+import model.dto.FlightOffer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class BookingsService {
-    private static BookingsDao bookingsData;
+    private static DAO<FlightOffer> bookingsData;
     private static BookingsService service;
 
     private BookingsService() {}
@@ -22,45 +22,64 @@ public class BookingsService {
     }
 
     public void displayBookedFlights(){
-        List<Map<String, Map<String, String>>> list = bookingsData.getAll();
-        IntStream.range(0,list.size())
-                .forEach(i -> {
-                    String outbound = "";
-                    String outboundFlightNumber = "flightNumber: " + list.get(i).get("outbound").get("carrierCode") + list.get(i).get("outbound").get("flightNumber");
-                    for(String key : list.get(i).get("outbound").keySet()){
-                        outbound += key.equals("price") || key.equals("buy") || key.equals("carrierCode") || key.equals("flightNumber") ? "" : key + ": " + list.get(i).get("outbound").get(key) + "\n";
-                    }
-                    outbound += outboundFlightNumber;
-                    String price = list.get(i).get("outbound").get("price");
-                    String buy = list.get(i).get("outbound").get("buy");
-                    String inbound = "";
-                    String inboundFlightNumber = "";
-                    if(list.get(i).get("inbound") != null){
-                        inboundFlightNumber = "flightNumber: " +  list.get(i).get("inbound").get("carrierCode") + list.get(i).get("outbound").get("flightNumber");
-                        for(String key : list.get(i).get("inbound").keySet()){
-                            inbound += key.equals("price") || key.equals("buy") || key.equals("carrierCode") || key.equals("flightNumber") ? "" : key + ": " + list.get(i).get("inbound").get(key) + "\n";
-                        }
-                        inbound += inboundFlightNumber;
-                    }
-                    System.out.printf("%d.\nOutbound:\n%s\n\n",i+1,outbound);
-                    System.out.println(inbound.equals("") ? String.format("buy: %s\nprice: $%s\n\n",buy,price)  : String.format("Inbound:\n%s\n\nbuy: %s\nprice: $%s\n\n",inbound,buy,price));
+        int[] counter = {1};
+        String[] price = {""};
+        String[] buy = {""};
 
-                });
+        bookingsData.getAll().forEach(e -> {
+            Map<String, String> outbound = e.getOutboundFlight();
+            System.out.println();
+            System.out.println();
+            System.out.println(counter[0] + ".");
+            System.out.println("Outbound: ");
+            System.out.println("Carrier: " + outbound.get("carrier"));
+            System.out.println("Departure: " + outbound.get("departure"));
+            System.out.println("Arrival: " + outbound.get("arrival"));
+            System.out.println("Flight number: " + outbound.get("carrierCode") + outbound.get("flightNumber"));
+            System.out.println("Trip duration: " + outbound.get("duration"));
+
+            price[0] = outbound.get("price");
+            buy[0] = outbound.get("buy");
+            counter[0]++;
+
+            if (e.getInboundFlight() == null) {
+                System.out.println();
+                System.out.println();
+                System.out.println("Price: " + "$" + price[0]);
+                System.out.println("Buy ticket: " + buy[0]);
+            }
+
+            if (e.getInboundFlight() != null) {
+                Map<String, String> inbound = e.getInboundFlight();
+                System.out.println();
+                System.out.println("Inbound: ");
+                System.out.println("Carrier: " + inbound.get("carrier"));
+                System.out.println("Departure: " + inbound.get("departure"));
+                System.out.println("Arrival: " + inbound.get("arrival"));
+                System.out.println("Flight number: " + inbound.get("carrierCode") + inbound.get("flightNumber"));
+                System.out.println("Trip duration: " + inbound.get("duration"));
+                System.out.println();
+                System.out.println();
+                System.out.println("Price: " + "$" + price[0]);
+                System.out.println("Buy ticket: " + buy[0]);
+            }
+
+        });
     }
 
     public void delete(int index) {
-        bookingsData.delete(index);
+        bookingsData.remove(index);
     }
 
-    public void add(Map<String, Map<String, String>> flight) {
+    public void add(FlightOffer flight) {
         bookingsData.add(flight);
     }
 
-    public List<Map<String, Map<String, String>>> getAll() {
+    public List<FlightOffer> getAll() {
         return bookingsData.getAll();
     }
 
-    public Map<String, Map<String, String>> get(int index) {
+    public FlightOffer get(int index) {
         return bookingsData.get(index);
     }
 
@@ -68,8 +87,5 @@ public class BookingsService {
         bookingsData = BookingsDaoImpl.instance().setActualUser(actualUser);
         return BookingsService.instance();
     }
-
-
-
 
 }
